@@ -1,3 +1,5 @@
+//Clare Miller
+
 public class Warehouse
 {
 	private static Warehouse singleton;
