@@ -1,3 +1,4 @@
+// Chris Leach
 public class ProductList
 {
 	private static ProductList singleton;
