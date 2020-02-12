@@ -1,3 +1,5 @@
+//Clare Miller
+
 public class UserInterface
 {
 	private static UserInterface singleton;
