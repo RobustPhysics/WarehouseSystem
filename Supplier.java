@@ -10,7 +10,7 @@ public class Supplier implements Serializable {
   private String name;
   private String address;
   private static final String SUPPLIER_STRING = "M";
-  private List<SuppliedProduct> suppliedproducts = new LinkedList<SuppliedProduct>();
+  private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
   
   public Supplier (String name, String address)
   {
@@ -48,10 +48,10 @@ public class Supplier implements Serializable {
   {
     return suppliedProducts.iterator();
   }
-
-  public boolean assignProduct(Supplier supplier)
+  /*
+  public boolean assignProduct(SuppliedProduct sp)
   {
-    return suppliedProducts.add(supplies);
+    return suppliedProducts.add(sp);
   }
 
   public boolean unassignProduct(String productID, String manufacturerID)
@@ -60,19 +60,20 @@ public class Supplier implements Serializable {
 
     while (suppliesIterator.hasNext())
     {
-      Supplies supplies = (Supplies)(suppliesIterator.next());
-      Manufacturer manufacturer = supplies.getManufacturer();
-      Product product = supplies.getProduct();
+      SuppliedProduct sp = (SuppliedProduct)(suppliesIterator.next());
+      Manufacturer manufacturer = sp.getManufacturer();
+      Product product = sp.getProduct();
       
       if (product.getProductID().equals(productID) && manufacturer.getManufacturerID().equals(manufacturerID))
       {
-        return suppliedProducts.remove(supplies);
+        return suppliedProducts.remove(supplier);
       }
     }
     
     return false; //Couldn't find Supplies object to unassign
    
    }
+   */
 
   
   public String toString() {

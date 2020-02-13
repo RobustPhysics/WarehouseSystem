@@ -32,7 +32,7 @@ public class SupplierList implements Serializable{
         Supplier supplier = (Supplier)(supplierIterator.next());
         if (supplier.getSupplierID().equals(supplierID))
         {
-            return manufacturer;
+            return supplier;
         }
     }
     return null;

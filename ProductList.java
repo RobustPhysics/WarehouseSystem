@@ -26,16 +26,21 @@ public class ProductList implements Serializable
 		}
 	}
 	
-	public Iterator GetProducts()
+	public Iterator getProducts()
 	{
 		return products.iterator();
 	}
 
-	public Product searchProduct(Product p) {
-		if (products.contains(p)) {
-
+	public Product searchProduct(String id) {
+		for (int i = 0; i < products.size(); i++)
+		{
+			Product p = products.get(i);
+			if (p.getProductID() == id)
+			{
+				return p;
+			}
 		}
-		return p;
+		return null;
 	}
 	
 	// Returns true if the product is in the product list,
@@ -45,6 +50,11 @@ public class ProductList implements Serializable
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean insertProduct(Product p)
+	{
+		return products.add(p);
 	}
 
 	// Adds one instance of a product into the system

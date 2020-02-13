@@ -42,7 +42,7 @@ public class Warehouse implements Serializable
 	
 	public Product addProduct(String id, String name, double price, int quantity)
 	{
-		Product product = productList.searchProduct();
+		Product product = productList.searchProduct(id);
 		if (product != null)
 		{
 			//productList.addProduct(product, quantity);
@@ -115,6 +115,7 @@ public class Warehouse implements Serializable
 			FileOutputStream file = new FileOutputStream("WarehouseData");
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			output.writeObject(warehouse);
+			return true;
 		}
 		catch (IOException ioe)
 		{

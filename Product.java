@@ -4,28 +4,28 @@ import java.io.*;
 
 public class Product implements Serializable
 {
-    private int productID;          // Unique product ID
+    private String productID;          // Unique product ID
     private String productName;     // Name of product
     private double salePrice;       // Sale price of product
     private int productQuantity;    // Avaliable quantity of product
     
     // Constructor
     public Product() {
-        productID = 0;
+        productID = "P0";
         productName = "";
         salePrice = 0;
         productQuantity = 0;
     }
 
     // Constructor
-    public Product(int id, String name, double price) {
+    public Product(String id, String name, double price) {
         productID = id;
         productName = name;
         salePrice = price;
         productQuantity = 0;
     }
     
-    public int getProductID() {
+    public String getProductID() {
         return productID;
     }
 
@@ -41,7 +41,7 @@ public class Product implements Serializable
         return productQuantity;
     }
 
-    public void setProductID(int id) {
+    public void setProductID(String id) {
         productID = id;
     }
 

@@ -36,7 +36,7 @@ public class UserInterface
 		EXIT("Exits the program");
 		
 		private String description;
-		private static int LENGTH = Options.values().length;
+		private static int LENGTH = Option.values().length;
 		
 		private Option(String str)
 		{
