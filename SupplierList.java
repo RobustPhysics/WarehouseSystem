@@ -1,8 +1,5 @@
 // Barrett Carlson
 // SupplierList.java
-import java.util.*;
-import java.io.*;
-
 import java.io.*;
 import java.util.*;
 
