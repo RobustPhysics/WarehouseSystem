@@ -1,6 +1,8 @@
 // Chris Leach
+import java.util.*;
+import java.io.*;
 
-public class Product
+public class Product implements Serializable
 {
     private int productID;          // Unique product ID
     private String productName;     // Name of product

@@ -1,10 +1,11 @@
-import java.util.List;
+import java.util.*;
+import java.io.*;
 
 // Chris Leach
 // Add, Serch
-public class ProductList
+public class ProductList implements Serializable
 {
-	private static ProductList singleton;
+	private static ProductList productList;
 	List<Product> products;                 // List of all products
 	
 	private ProductList()
@@ -14,7 +15,15 @@ public class ProductList
 	
 	public static ProductList getInstance()
 	{
-		return singleton;
+		if (productList == null)
+		{
+			productList = new ProductList();
+			return productList;
+		}
+		else
+		{
+			return productList;
+		}
 	}
 	
 	public Iterator GetProducts()

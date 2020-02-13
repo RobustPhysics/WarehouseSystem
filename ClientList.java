@@ -2,7 +2,7 @@
 //methods to add, remove, and search
 import java.util.*;
 import java.io.*;
-public class ClientList
+public class ClientList implements Serializable
 {
 	private static final long serialVersionUID=1L;
 	private List clients = new LinkedList();
@@ -30,6 +30,7 @@ public class ClientList
 		return clients.iterator();
 	}
 	
+	/*
 	private void writeObject(java.io.ObjectOutputStream output)
 	{
 		try
@@ -69,6 +70,7 @@ public class ClientList
 			crne.printStackTrace();
 		}
 	}
+	*/
 	
 	public String toString()
 	{

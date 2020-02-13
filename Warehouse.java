@@ -14,7 +14,7 @@ public class Warehouse implements Serializable
 	{
 		clientList = ClientList.instance();
 		productList = ProductList.getInstance();
-		supplierList = SupplierList.getInstance();
+		supplierList = SupplierList.instance();
 	}
 	
 	public static Warehouse getInstance()

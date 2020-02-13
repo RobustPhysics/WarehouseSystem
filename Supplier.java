@@ -1,5 +1,7 @@
 // Barrett
 // Supplier.java
+import java.util.*;
+import java.io.*;
 
 public class Supplier implements Serializable {
 
@@ -47,7 +49,7 @@ public class Supplier implements Serializable {
     return suppliedProducts.iterator();
   }
 
-  public boolean assignProduct(Supplies supplies)
+  public boolean assignProduct(Supplier supplier)
   {
     return suppliedProducts.add(supplies);
   }

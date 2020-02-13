@@ -10,7 +10,7 @@ public class UserInterface
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 	
-	private enum Options
+	private enum Option
 	{
 		
 		ADD_CLIENT("Adds client to system"),
@@ -98,7 +98,7 @@ public class UserInterface
 	
 	private boolean promptYesNo(String prompt)
 	{
-		prompt += " (Y/y) for YES, anything else for NO.");
+		prompt += " (Y/y) for YES, anything else for NO.";
 		char result = getToken(prompt).charAt(0);
 		if (result == 'Y' || result == 'y')
 		{
@@ -128,7 +128,7 @@ public class UserInterface
 			{
 				System.out.println("Invalid input - Please enter a valid number!");
 			}
-		} while (true)
+		} while (true);
 	}
 	
 	public void displayHelp()
@@ -148,7 +148,7 @@ public class UserInterface
 		String name = getToken("Enter client name");
 		String id = getToken("Enter client ID");
 		Client client;
-		client = warehouse.addMember(id, name);
+		client = warehouse.addClient(id, name);
 		if (client == null)
 		{
 			System.out.println("Error! Failed to add client to warehouse!");
@@ -167,7 +167,7 @@ public class UserInterface
 		int quantity = Integer.parseInt(quantityStr);
 		
 		Product product;
-		product = warehouse.addProduct(id, name, price);
+		product = warehouse.addProduct(id, name, price, quantity);
 		if (product == null)
 		{
 			System.out.println("Error! Failed to add product to warehouse!");
@@ -259,7 +259,7 @@ public class UserInterface
 		Iterator suppliers = warehouse.getSuppliers();
 		while (suppliers.hasNext())
 		{
-			Supplier supplier = (Supplier) (supplier.next());
+			Supplier supplier = (Supplier) (suppliers.next());
 			System.out.println(supplier);
 		}
 	}
@@ -289,7 +289,7 @@ public class UserInterface
 			else
 			{
 				System.out.println("Warehouse file not found. Creating new warehouse data.");
-				warehouse = Warehouse.instance();
+				warehouse = Warehouse.getInstance();
 			}
 		}
 		catch (Exception e)
@@ -365,6 +365,6 @@ public class UserInterface
 	
 	public static void main(String[] s)
 	{
-		UserInterface.instance().process();
+		UserInterface.getInstance().process();
 	}
 }

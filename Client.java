@@ -2,7 +2,7 @@
 //include constructor, get, set, variables as needed
 import java.util.*;
 import java.io.*;
-public class Client
+public class Client implements Serializable
 {
 	private String id;
 	private String name;
