@@ -2,7 +2,7 @@
 // SupplierList.java
 
 import java.io.*;
-java.util.*;
+import java.util.*;
 
 public class SupplierList implements Serializable{
 
