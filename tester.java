@@ -8,17 +8,22 @@ class tester
 		//UserInterface userInterface = UserInterface.getInstance();
 		Warehouse warehouse = Warehouse.getInstance();
 		
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		warehouse.addClient();
-		
+		warehouse.addClient("237487","Bob Sagat");
+		warehouse.addClient("1234656","Hello Padre");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+		warehouse.addClient("","");
+
 		Iterator clients = warehouse.getClients();
 		while (clients.hasNext())
 		{
