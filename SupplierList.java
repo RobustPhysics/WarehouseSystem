@@ -1,6 +1,9 @@
 // Barrett Carlson
 // SupplierList.java
 
+import java.io.*;
+java.util.*;
+
 public class SupplierList implements Serializable{
 
   private static final long serialVersionUID = 1L;
