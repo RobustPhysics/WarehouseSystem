@@ -356,6 +356,12 @@ public class UserInterface
 				case SHOW_SUPPLIERS:
 					showSuppliers();
 					break;
+				case SAVE:
+					save();
+					break;
+				case RETRIEVE:
+					retrieve();
+					break;
 				case HELP:
 					displayHelp();
 					break;

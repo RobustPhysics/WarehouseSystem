@@ -4,6 +4,7 @@ import java.io.*;
 
 public class Product implements Serializable
 {
+	private static final long serialVersionUID = 1L;
     private String productID;          // Unique product ID
     private String productName;     // Name of product
     private double salePrice;       // Sale price of product

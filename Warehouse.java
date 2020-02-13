@@ -5,6 +5,7 @@ import java.io.*;
 
 public class Warehouse implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private static Warehouse warehouse;
 	private ClientList clientList;
 	private ProductList productList;
@@ -90,7 +91,7 @@ public class Warehouse implements Serializable
 	{
 		try
 		{
-			FileInputStream file = new FileInputStream("WarehouseData");
+			FileInputStream file = new FileInputStream(new File("WarehouseData.txt"));
 			ObjectInputStream input = new ObjectInputStream(file);
 			input.readObject();
 			
@@ -112,9 +113,11 @@ public class Warehouse implements Serializable
 	{
 		try
 		{
-			FileOutputStream file = new FileOutputStream("WarehouseData");
+			FileOutputStream file = new FileOutputStream(new File("WarehouseData.txt"));
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			output.writeObject(warehouse);
+			output.close();
+			
 			return true;
 		}
 		catch (IOException ioe)

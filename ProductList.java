@@ -5,6 +5,7 @@ import java.io.*;
 // Add, Serch
 public class ProductList implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private static ProductList productList;
 	List<Product> products;                 // List of all products
 	
