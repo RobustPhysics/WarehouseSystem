@@ -10,7 +10,7 @@ public class Supplier implements Serializable {
   private String name;
   private String address;
   private static final String SUPPLIER_STRING = "M";
-  private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
+  //private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
   
   public Supplier (String name, String address)
   {

@@ -9,6 +9,7 @@ public class Product implements Serializable
     private String productName;     // Name of product
     private double salePrice;       // Sale price of product
     private int productQuantity;    // Avaliable quantity of product
+    //private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
     
     // Constructor
     public Product() {
