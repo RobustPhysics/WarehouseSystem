@@ -7,7 +7,7 @@ public class SupplierList implements Serializable{
   private List<Supplier> suppliers = new LinkedList<Supplier>();
   private static SupplierList supplierlist;
 
-  private MemberList() {}
+  private SupplierList() {}
 
   public static SupplierList instance() {
     if (supplierlist == null) {
@@ -40,6 +40,7 @@ public class SupplierList implements Serializable{
     return suppliers.iterator();
   }
   
+  /*
   private void writeObject(java.io.ObjectOutputStream output) {
     try {
       output.defaultWriteObject();
@@ -67,8 +68,10 @@ public class SupplierList implements Serializable{
       cnfe.printStackTrace();
     }
   }
+  */
   
   public String toString() {
     return suppliers.toString();
   }
+
 }
