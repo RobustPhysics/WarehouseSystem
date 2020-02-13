@@ -11,10 +11,14 @@ public class SupplierList implements Serializable{
 
   private SupplierList() {}
 
-  public static SupplierList instance() {
-    if (supplierlist == null) {
+  public static SupplierList getInstance()
+  {
+    if (supplierlist == null) 
+    {
       return (supplierlist = new SupplierList());
-    } else {
+    } 
+    else 
+    {
       return supplierlist;
     }
   }
