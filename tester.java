@@ -33,15 +33,6 @@ class tester
 		
 		System.out.println("Expected output: ");
 		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
 		System.out.println();
 		
 		warehouse.addProduct("982734","bay food",45.00,78);
@@ -68,15 +59,6 @@ class tester
 		
 		System.out.println("Expected output: ");
 		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
 		System.out.println();
 		
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
@@ -85,9 +67,9 @@ class tester
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("MEDTRONIC","666 Santa Ave.");
+		warehouse.addSupplier("MEDTRONIC","666 Satanaas Ave.");
+		warehouse.addSupplier("ME22323kDTRONIC","666 Satans Ave.");
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
 		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
@@ -100,15 +82,6 @@ class tester
 		}
 		
 		System.out.println("Expected output: ");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
 		System.out.println("");
 		System.out.println();
 	}
