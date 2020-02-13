@@ -45,7 +45,7 @@ public class ClientList
 	{
 		try
 		{
-			if(clientList !=null
+			if(clientList !=null)
 			{
 				return;
 			}
