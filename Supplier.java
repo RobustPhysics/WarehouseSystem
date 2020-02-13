@@ -44,10 +44,12 @@ public class Supplier implements Serializable {
     return address;
   }
   
+  /*
   public Iterator getSuppliedProducts()
   {
     return suppliedProducts.iterator();
   }
+  */
   /*
   public boolean assignProduct(SuppliedProduct sp)
   {

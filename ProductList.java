@@ -7,11 +7,10 @@ public class ProductList implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private static ProductList productList;
-	List<Product> products;                 // List of all products
+	List<Product> products = new LinkedList<Product>();                 // List of all products
 	
 	private ProductList()
 	{
-		products = null;                    // Initilizing an empty list for the products
 	}
 	
 	public static ProductList getInstance()
@@ -44,29 +43,8 @@ public class ProductList implements Serializable
 		return null;
 	}
 	
-	// Returns true if the product is in the product list,
-	// returns false if it is not in the list
-	public boolean isInList(Product p) {
-		if (products.contains(p) == true)
-			return true;
-		else
-			return false;
-	}
-	
 	public boolean insertProduct(Product p)
 	{
 		return products.add(p);
-	}
-
-	// Adds one instance of a product into the system
-	public void addProduct(Product p) {
-		products.add(p);
-		p.setQuantity(p.getQuantity() + 1);   // Increasing product quantity by one
-	}
-
-	// Adds multiple instances of a product into the system
-	public void addProduct(Product p, int quantity) {
-		products.add(p);
-		p.setQuantity(p.getQuantity() + quantity); // Increase quantity
 	}
 }

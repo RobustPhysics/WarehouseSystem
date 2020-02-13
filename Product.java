@@ -58,4 +58,9 @@ public class Product implements Serializable
     public void setQuantity(int quantity) {
         productQuantity = quantity;
     }
+    
+    public String toString() {
+        String string = "id " + productID + " name " + productName + "($" + salePrice + " x " + productQuantity + ")";
+        return string;
+      }
 }
