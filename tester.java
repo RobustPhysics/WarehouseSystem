@@ -8,21 +8,21 @@ class tester
 		//UserInterface userInterface = UserInterface.getInstance();
 		Warehouse warehouse = Warehouse.getInstance();
 		
-		warehouse.addClient("237487","Bob Sagat");
-		warehouse.addClient("1234656","Hello Padre");
-		warehouse.addClient("1234123","goodness gracious");
-		warehouse.addClient("12341234","hihowareyou");
-		warehouse.addClient("4234","whatsgoingon");
-		warehouse.addClient("856787","isaid");
-		warehouse.addClient("2341","hey");
-		warehouse.addClient("44324","hey");
-		warehouse.addClient("9484","hey");
-		warehouse.addClient("93402","hey");
-		warehouse.addClient("2394923","isaidhey");
-		warehouse.addClient("239023","whats going on");
-		warehouse.addClient("92034","clare");
-		warehouse.addClient("67565","chris");
-		warehouse.addClient("2342341","MIRANDANANA");
+		warehouse.addClient("M1","Bob Sagat");
+		warehouse.addClient("M2","Hello Padre");
+		warehouse.addClient("M3","goodness gracious");
+		warehouse.addClient("M4","hihowareyou");
+		warehouse.addClient("M5","whatsgoingon");
+		warehouse.addClient("M6","isaid");
+		warehouse.addClient("M7","hey");
+		warehouse.addClient("M8","hey");
+		warehouse.addClient("M9","hey");
+		warehouse.addClient("M10","hey");
+		warehouse.addClient("M11","isaidhey");
+		warehouse.addClient("M12","whats going on");
+		warehouse.addClient("M13","clare");
+		warehouse.addClient("M14","chris");
+		warehouse.addClient("M15","MIRANDANANA");
 
 		Iterator clients = warehouse.getClients();
 		while (clients.hasNext())
@@ -35,20 +35,20 @@ class tester
 		System.out.println("");
 		System.out.println();
 		
-		warehouse.addProduct("982734","bay food",45.00,78);
-		warehouse.addProduct("98273","babyfood",45.00,78);
-		warehouse.addProduct("9827","baby ood",45.00,78);
-		warehouse.addProduct("9824","baby o",45.00,78);
-		warehouse.addProduct("98734","bab ood",45.00,78);
-		warehouse.addProduct("82734","bay food",45.00,78);
-		warehouse.addProduct("9834","bby food",45.00,78);
-		warehouse.addProduct("982734","bb food",45.00,78);
-		warehouse.addProduct("8274","ba food",45.00,78);
-		warehouse.addProduct("973","baod",45.00,78);
-		warehouse.addProduct("98273","bod",45.00,78);
-		warehouse.addProduct("94434","bab foo",45.00,78);
-		warehouse.addProduct("87","baby fod",45.00,78);
-		warehouse.addProduct("94","baby food",45.00,78);
+		warehouse.addProduct("P1","bay food",45.00,78);
+		warehouse.addProduct("P2","babyfood",45.00,78);
+		warehouse.addProduct("P3","baby ood",45.00,78);
+		warehouse.addProduct("P4","baby o",45.00,78);
+		warehouse.addProduct("P5","bab ood",45.00,78);
+		warehouse.addProduct("P6","bay food",45.00,78);
+		warehouse.addProduct("P7","bby food",45.00,78);
+		warehouse.addProduct("P8","bb food",45.00,78);
+		warehouse.addProduct("P9","ba food",45.00,78);
+		warehouse.addProduct("P10","baod",45.00,78);
+		warehouse.addProduct("P11","bod",45.00,78);
+		warehouse.addProduct("P12","bab foo",45.00,78);
+		warehouse.addProduct("P13","baby fod",45.00,78);
+		warehouse.addProduct("P14","baby food",45.00,78);
 
 		Iterator products = warehouse.getProducts();
 		while (products.hasNext())
@@ -61,18 +61,18 @@ class tester
 		System.out.println("");
 		System.out.println();
 		
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Santa Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satanaas Ave.");
-		warehouse.addSupplier("ME22323kDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
-		warehouse.addSupplier("MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S1", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S2", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S3", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S4", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S5", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S6", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S7", "MEDTRONIC","666 Santa Ave.");
+		warehouse.addSupplier("S8", "MEDTRONIC","666 Satanaas Ave.");
+		warehouse.addSupplier("S9", "ME22323kDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S10", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S11", "MEDTRONIC","666 Satans Ave.");
+		warehouse.addSupplier("S12", "MEDTRONIC","666 Satans Ave.");
 		
 		Iterator suppliers = warehouse.getSuppliers();
 		while (suppliers.hasNext())

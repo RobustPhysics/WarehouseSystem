@@ -12,10 +12,11 @@ public class Supplier implements Serializable {
   private static final String SUPPLIER_STRING = "M";
   //private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
   
-  public Supplier (String name, String address)
+  public Supplier (String id, String name, String address)
   {
     // ID server??
     //supplierID = SUPPLIER_STRING + ManufacturerIDServer.instance().getID();
+	this.supplierID = id;
     this.name = name;
     this.address = address;
   }
@@ -79,8 +80,9 @@ public class Supplier implements Serializable {
 
   
   public String toString() {
-    String string = "Supplier ID: " + supplierID + " \nName: " + name + "\nAddress: " + address;
-    return string;
+    //String str = "Supplier ID: " + supplierID + " \nName: " + name + "\nAddress: " + address;
+	String str = " id " + supplierID + " name " + name + " (" + address + ")";
+    return str;
   }
 
 }

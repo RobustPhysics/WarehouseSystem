@@ -178,9 +178,10 @@ public class UserInterface
 	public void addSupplier()
 	{
 		String name = getToken("Enter name of supplier");
+		String id = getToken("Enter supplier ID");
 		String address = getToken("Enter address of supplier");
 		Supplier supplier;
-		supplier = warehouse.addSupplier(name, address);
+		supplier = warehouse.addSupplier(id, name, address);
 		if (supplier == null)
 		{
 			System.out.println("Error! Failed to add supplier to warehouse!");

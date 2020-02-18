@@ -62,9 +62,9 @@ public class Warehouse implements Serializable
 		}
 	}
 	
-	public Supplier addSupplier(String name, String address)
+	public Supplier addSupplier(String id, String name, String address)
 	{
-		Supplier supplier = new Supplier(name, address);
+		Supplier supplier = new Supplier(id, name, address);
 		if (supplierList.insertSupplier(supplier))
 		{
 			return supplier;
