@@ -4,39 +4,54 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public class ClientIdServer implements Serializable
+public class IdServer implements Serializable
 {
-	private int idCount; // id counter
-	private static ClientIdServer server;
+	private int clientIdCount; // id counter
+	private int productIdCount;
+	private int supplierIdCount;
+	private static IdServer server;
 
-	private ClientIdServer()
+	private IdServer()
 	{
-		idCount = 1;
+		clientIdCount = 1;
+		productIdCount = 1;
+		supplierIdCount = 1;
 	}
 
-	public static ClientIdServer instance()
+	public static IdServer instance()
 	{
 		if (server == null)
-			return (server = new ClientIdServer());
+			return (server = new IdServer());
 		else
 			return server;
 	}
 
-	public int getId()
+	public int getClientId()
 	{
-		return idCount++;
+		return clientIdCount++;
+	}
+	
+	public int getProductId()
+	{
+		return productIdCount++;
+	}
+	
+	public int getSupplierId()
+	{
+		return supplierIdCount++;
+	}
 	}
 
 	public String toString()
 	{
-		return ("IdServer:" + idCount);
+		return ("Client ID " + clientIdCount + " | Product ID " + productIdCount + " | Supplier ID " + supplierIdCount);
 	}
 
 	public static void retrieve(ObjectInputStream input)
 	{
 		try
 		{
-			server = (ClientIdServer) input.readObject();
+			server = (IdServer) input.readObject();
 		
 		}catch(IOException ioe){
 		
@@ -64,7 +79,7 @@ public class ClientIdServer implements Serializable
 		{
 			input.defaultReadObject();
 			if (server == null)
-				server = (ClientIdServer) input.readObject();
+				server = (IdServer) input.readObject();
 			else
 				input.readObject();
 		}catch(IOException ioe){

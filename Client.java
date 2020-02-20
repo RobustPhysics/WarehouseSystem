@@ -16,7 +16,7 @@ public class Client implements Serializable
 	{
 		this.id=id;
 		this.name=name;
-		id = CLIENT_STRING + (ClientIdServer.instance()).getId();
+		id = CLIENT_STRING + (IdServer.instance()).getClientId();
 	}
 	
 	public String getId()

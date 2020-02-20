@@ -16,6 +16,7 @@ public class Warehouse implements Serializable
 		clientList = ClientList.instance();
 		productList = ProductList.getInstance();
 		supplierList = SupplierList.getInstance();
+		IdServer.instance();
 	}
 	
 	public static Warehouse getInstance()
@@ -94,7 +95,7 @@ public class Warehouse implements Serializable
 			FileInputStream file = new FileInputStream(new File("WarehouseData.txt"));
 			ObjectInputStream input = new ObjectInputStream(file);
 			input.readObject();
-			
+			IdServer.retrieve(input);
 			return warehouse;
 		}
 		catch (IOException ioe)
@@ -116,6 +117,7 @@ public class Warehouse implements Serializable
 			FileOutputStream file = new FileOutputStream(new File("WarehouseData.txt"));
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			output.writeObject(warehouse);
+			output.writeObject(IdServer.instance());
 			output.close();
 			
 			return true;
