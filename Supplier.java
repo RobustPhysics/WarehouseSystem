@@ -10,15 +10,23 @@ public class Supplier implements Serializable {
   private String name;
   private String address;
   private static final String SUPPLIER_STRING = "M";
-  //private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
+  private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
   
-  public Supplier (String id, String name, String address)
+  public Supplier (String name, String address)
   {
-    // ID server??
-    //supplierID = SUPPLIER_STRING + ManufacturerIDServer.instance().getID();
-	this.supplierID = id;
     this.name = name;
     this.address = address;
+    supplierID = SUPPLIER_STRING + IdServer.instance().getSupplierId();
+  }
+  
+  public boolean addSuppliedProduct(SuppliedProduct sp)
+  {
+  	return true;
+  }
+  
+  public Iterator getSuppliedProducts()
+  {
+	  return null;
   }
   
   public void setName(String name)

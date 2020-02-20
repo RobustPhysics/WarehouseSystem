@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class IdServer implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private int clientIdCount; // id counter
 	private int productIdCount;
 	private int supplierIdCount;
@@ -39,7 +40,6 @@ public class IdServer implements Serializable
 	public int getSupplierId()
 	{
 		return supplierIdCount++;
-	}
 	}
 
 	public String toString()

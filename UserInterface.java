@@ -146,9 +146,8 @@ public class UserInterface
 	public void addClient()
 	{
 		String name = getToken("Enter client name");
-		String id = getToken("Enter client ID");
 		Client client;
-		client = warehouse.addClient(id, name);
+		client = warehouse.addClient(name);
 		if (client == null)
 		{
 			System.out.println("Error! Failed to add client to warehouse!");
@@ -159,7 +158,6 @@ public class UserInterface
 	public void addProduct()
 	{
 		String name = getToken("Enter name of product");
-		String id = getToken("Enter product ID");
 		String priceStr = getToken("Enter product price");
 		String quantityStr = getToken("Enter quantity of product");
 		
@@ -167,7 +165,7 @@ public class UserInterface
 		int quantity = Integer.parseInt(quantityStr);
 		
 		Product product;
-		product = warehouse.addProduct(id, name, price, quantity);
+		product = warehouse.addProduct(name, price, quantity);
 		if (product == null)
 		{
 			System.out.println("Error! Failed to add product to warehouse!");
@@ -178,10 +176,9 @@ public class UserInterface
 	public void addSupplier()
 	{
 		String name = getToken("Enter name of supplier");
-		String id = getToken("Enter supplier ID");
 		String address = getToken("Enter address of supplier");
 		Supplier supplier;
-		supplier = warehouse.addSupplier(id, name, address);
+		supplier = warehouse.addSupplier(name, address);
 		if (supplier == null)
 		{
 			System.out.println("Error! Failed to add supplier to warehouse!");
@@ -191,21 +188,113 @@ public class UserInterface
 	
 	public void addToCart()
 	{
-		System.out.println("Dummy action.");
+		String clientId = getToken("Enter client ID whose cart will be added to");
+		Client client = warehouse.getClient(clientId);
+		//NOTE: How to prevent UserInterface from modifying client???
+		//Maybe instead use a method that returns true if client found, or false if not?
+		if (client != null)
+		{
+			String productId = getToken("Enter ID of product to add to cart");
+			String quantityStr = getToken("Enter quantity of product " + productId + " to add to cart");
+			int quantity = Integer.parseInt(quantityStr);
+			
+			boolean result = warehouse.addToCart(clientId, productId, quantity);
+			if (result)
+			{
+				System.out.println("Successfully added product " + productId + " ("+ quantity + ") to cart for client " + clientId);
+			}
+			else
+			{
+				System.out.println("Encountered error trying to add product!");
+			}
+		}
+		else
+		{
+			System.out.println("Error! Unable to find client with id " + clientId);
+		}
 	}
 	
 	public void removeFromCart()
 	{
 		System.out.println("Dummy action.");
+		/*
+		String clientId = getToken("Enter client ID whose cart will be added to");
+		Client client = warehouse.getClient(clientId);
+		
+		if (client != null)
+		{
+			String productId = getToken("Enter ID of product to remove from cart");
+			
+			boolean result = warehouse.removeFromCart(clientId, productId);
+			if (result)
+			{
+				System.out.println("Successfully removed product " + productId + " from cart for client " + clientId);
+			}
+			else
+			{
+				System.out.println("Encountered an error removing product from cart.");
+			}
+			
+		}
+		else
+		{
+			System.out.println("Error! Unable to find client with id " + clientId);
+		}
+		*/
 	}
 	
 	public void updateProductInCart()
 	{
 		System.out.println("Dummy action.");
+		/*
+		//NOTE: possibly remove, and simply make 'addProductToCart()' method
+		//automatically add quantity to product if it's already in cart?
+		//otherwise, if there are multiple items with the same ID in the cart...
+		String clientId = getToken("Enter client ID whose cart will be added to");
+		Client client = warehouse.getClient(clientId);
+		
+		if (client != null)
+		{
+			String productId = getToken("Enter ID of product to update in cart");
+			String quantityStr = getToken("Enter new quantity of product " + productId + " in cart");
+			int quantity = Integer.parseInt(quantityStr);
+			
+			boolean result = warehouse.updateProductInCart(clientId, productId, quantity);
+			if (result)
+			{
+				System.out.println("Successfully set product " + productId + " to quantity " + quantity + " in for client " + clientId);
+			}
+			else
+			{
+				System.out.println("Encountered error trying to update product in cart!");
+			}
+		}
+		else
+		{
+			System.out.println("Error! Unable to find client with id " + clientId);
+		}
+		*/
 	}
 	
 	public void processOrder()
 	{
+		System.out.println("Dummy action.");
+		String clientId = getToken("Enter client ID whose cart will be added to");
+		
+		boolean result = warehouse.processOrder(clientId);
+		if (result)
+		{
+			System.out.println("Order processed successfully!");
+		}
+		else
+		{
+			System.out.println("Failed to process client order!");
+		}
+	}
+	
+	public void addSuppliedProduct()
+	{
+		//NOTE: Method not currently in business process
 		System.out.println("Dummy action.");
 	}
 	
@@ -216,17 +305,56 @@ public class UserInterface
 	
 	public void getProductInfo()
 	{
-		System.out.println("Dummy action.");
+		String id = getToken("Enter product ID to view a list of suppliers that supply this product");
+		Product product = warehouse.getProduct(id);
+		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
+		Iterator suppliedProducts = product.getSuppliedProducts();
+		
+		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
+		while (suppliedProducts.hasNext())
+		{
+			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+			if (sp != null)
+			{
+				Supplier supplier = warehouse.getSupplier(sp.getSupplierId());
+				System.out.println("\t" + supplier);
+			}
+			else
+			{
+				//How to treat a supplied product that doesn't exist?
+			}
+		}
 	}
 	
 	public void getSupplierInfo()
 	{
-		System.out.println("Dummy action.");
+		String id = getToken("Enter supplier ID to view a list of suppliers that supply this product");
+		Supplier supplier = warehouse.getSupplier(id);
+		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
+		Iterator suppliedProducts = supplier.getSuppliedProducts();
+		
+		System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
+		while (suppliedProducts.hasNext())
+		{
+			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+			if (sp != null)
+			{
+				Product product = warehouse.getProduct(sp.getProductId());
+				System.out.println("\t" + product);
+			}
+			else
+			{
+				//How to treat a supplied product that doesn't exist?
+			}
+		}
 	}
 	
 	public void showOutstandingClients()
 	{
-		System.out.println("Dummy action.");
+		//NOTE: Perhaps get an iterator of the outstanding clients from warehouse directly?
+		Iterator clients = warehouse.getClients();
+		
+		
 	}
 	
 	public void showWaitListProducts()
@@ -317,22 +445,11 @@ public class UserInterface
 				case ADD_SUPPLIER:
 					addSupplier();
 					break;
-				///////
-				///////
 				case ADD_TO_CART:
 					addToCart();
 					break;
-				case REMOVE_FROM_CART:
-					removeFromCart();
-					break;
-				case UPDATE_PRODUCT_IN_CART:
-					updateProductInCart();
-					break;
 				case PROCESS_ORDER:
 					processOrder();
-					break;
-				case SHOW_CLIENT_TRANSACTIONS:
-					showClientTransactions();
 					break;
 				case GET_PRODUCT_INFO:
 					getProductInfo();
@@ -345,6 +462,17 @@ public class UserInterface
 					break;
 				case SHOW_WAIT_LIST_PRODUCTS:
 					showWaitListProducts();
+					break;
+				///////
+				///////
+				case REMOVE_FROM_CART:
+					removeFromCart();
+					break;
+				case UPDATE_PRODUCT_IN_CART:
+					updateProductInCart();
+					break;
+				case SHOW_CLIENT_TRANSACTIONS:
+					showClientTransactions();
 					break;
 				///////
 				///////

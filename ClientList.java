@@ -19,6 +19,12 @@ public class ClientList implements Serializable
 			return clientList;
 		}
 	}
+	
+	public Client getClient(String id)
+	{
+		return null;
+	}
+	
 	public boolean insertClient(Client client)
 	{
 		clients.add(client);

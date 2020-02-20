@@ -32,9 +32,9 @@ public class Warehouse implements Serializable
 		}
 	}
 	
-	public Client addClient(String id, String name)
+	public Client addClient(String name)
 	{
-		Client client = new Client(id, name);
+		Client client = new Client(name);
 		if (clientList.insertClient(client))
 		{
 			return client;
@@ -42,18 +42,17 @@ public class Warehouse implements Serializable
 		return null;
 	}
 	
-	public Product addProduct(String id, String name, double price, int quantity)
+	public Product addProduct(String name, double price, int quantity)
 	{
-		Product product = productList.searchProduct(id);
+		Product product = productList.searchProductByName(name);
 		if (product != null)
 		{
-			//productList.addProduct(product, quantity);
 			product.setQuantity(product.getQuantity() + quantity);
 			return product;
 		}
 		else
 		{
-			product = new Product(id, name, price);
+			product = new Product(name, price);
 			product.setQuantity(quantity);
 			if (productList.insertProduct(product))
 			{
@@ -63,14 +62,201 @@ public class Warehouse implements Serializable
 		}
 	}
 	
-	public Supplier addSupplier(String id, String name, String address)
+	public Supplier addSupplier(String name, String address)
 	{
-		Supplier supplier = new Supplier(id, name, address);
+		Supplier supplier = new Supplier(name, address);
 		if (supplierList.insertSupplier(supplier))
 		{
 			return supplier;
 		}
 		return null;
+	}
+	
+	public Client getClient(String id)
+	{
+		//return clientList.getClient(id);
+		Iterator clients = getClients();
+		while (clients.hasNext())
+		{
+			Client client = (Client) clients.next();
+			if (client != null && client.getId() == id)
+			{
+				return client;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Product getProduct(String id)
+	{
+		//return productList.getProduct(id);
+		Iterator products = getProducts();
+		while (products.hasNext())
+		{
+			Product product = (Product) products.next();
+			if (product != null && product.getProductID() == id)
+			{
+				return product;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Supplier getSupplier(String id)
+	{
+		//return supplierList.searchSuppliers(id);
+		Iterator suppliers = getSuppliers();
+		while (suppliers.hasNext())
+		{
+			Supplier supplier = (Supplier) suppliers.next();
+			if (supplier != null && supplier.getSupplierID() == id)
+			{
+				return supplier;
+			}
+		}
+		
+		return null;
+	}
+	
+	public boolean addProductSupplier(String productId, String supplierId, double purchasePrice)
+	{
+		SuppliedProduct sp = new SuppliedProduct(productId, supplierId, purchasePrice);
+		
+		Product product = getProduct(productId);
+		Supplier supplier = getSupplier(supplierId);
+		if (product == null)
+		{
+			System.out.println("Unable to find product " + productId);
+			return false;
+		}
+		if (supplier == null)
+		{
+			System.out.println("Unable to find supplier " + supplierId);
+			return false;
+		}
+		
+		boolean r1 = product.addSuppliedProduct(sp);
+		boolean r2 = supplier.addSuppliedProduct(sp);
+		
+		return r1 && r2;
+	}
+	
+	public boolean addToCart(String clientId, String productId, int quantity)
+	{
+		Product product = getProduct(productId);
+		Client client = getClient(clientId);
+		if (product == null)
+		{
+			System.out.println("Product " + productId + " not found!");
+			return false;
+		}
+		else if (client == null)
+		{
+			System.out.println("Client " + clientId + " not found!");
+			return false;
+		}
+		
+		//NOTE: We do not need to worry if product is out of stock
+		//That's only a concern for processOrder()
+		double price = product.getSalePrice();
+		LineItem item = new LineItem(productId, price, quantity);
+		
+		return client.addToCart(item);
+	}
+	
+	/*
+	public boolean removeFromCart(String clientId, String productId)
+	{
+		Client client = clientList.getClient(clientId);
+		if (client == null)
+		{
+			System.out.println("Client " + clientId + " not found!");
+			return false;
+		}
+		
+		return client.removeFromCart(productId);
+	}
+	
+	public boolean updateProductInCart(String clientId, String productId, int newQuantity)
+	{
+		Client client = clientList.getClient(clientId);
+		if (client == null)
+		{
+			System.out.println("Client " + clientId + " not found!");
+			return false;
+		}
+		
+		LineItem item = client.getLineItemInCart(productId);
+		if (item == null)
+		{
+			System.out.println("Product " + productId + " not found in cart for client " + client);
+			return false;
+		}
+		
+		item.setProductQuantity(newQuantity);
+		
+		return true;
+	}
+	*/
+	
+	public boolean processOrder(String clientId)
+	{
+		Client client = getClient(clientId);
+		if (client != null)
+		{
+			Iterator cart = client.getCart();
+			if (!cart.hasNext())
+			{
+				return false; //return that client had no items in cart to process
+			}
+			while (cart.hasNext())
+			{
+				LineItem item = (LineItem) cart.next();
+				Product product = getProduct(item.getProductId());
+				if (product != null)
+				{
+					if (product.getQuantity() >= item.getProductQuantity())
+					{
+						//NOTE: Generate invoice
+						double amountDue = item.getProductPrice() * item.getProductQuantity();
+						client.incrementAmountDue(amountDue);
+					}
+					else
+					{
+						//NOTE: Add to waitlist
+					}
+				}
+				else
+				{
+					//NOTE: product doesn't exist, what do we do?
+					//Maybe remove line item from cart?
+				}
+			}
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public Iterator getOutstandingClients()
+	{
+		List<Client> outstandingClients = new ArrayList<Client>();
+		Iterator clients = clientList.getClients();
+		while (clients.hasNext())
+		{
+			Client client = (Client) clients.next();
+			if (client.getAmountDue() > 0)
+			{
+				outstandingClients.add(client);
+			}
+		}
+		
+		return outstandingClients.iterator();
 	}
 	
 	public Iterator getClients()

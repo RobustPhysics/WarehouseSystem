@@ -27,7 +27,7 @@ public class SupplierList implements Serializable{
     return suppliers.add(supplier);
   }
 
-  public Supplier searchSuppler(String supplierID)
+  public Supplier searchSupplier(String supplierID)
   {
     Iterator supplierIterator = suppliers.iterator();
     

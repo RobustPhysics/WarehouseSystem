@@ -26,16 +26,33 @@ public class ProductList implements Serializable
 		}
 	}
 	
+	public Product getProduct(String id)
+	{
+		return null;
+	}
+	
 	public Iterator getProducts()
 	{
 		return products.iterator();
 	}
 
-	public Product searchProduct(String id) {
+	public Product searchProductByID(String id) {
 		for (int i = 0; i < products.size(); i++)
 		{
 			Product p = products.get(i);
 			if (p.getProductID() == id)
+			{
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public Product searchProductByName(String name) {
+		for (int i = 0; i < products.size(); i++)
+		{
+			Product p = products.get(i);
+			if (p.getProductID() == name)
 			{
 				return p;
 			}
