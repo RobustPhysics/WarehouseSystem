@@ -10,6 +10,7 @@ public class Product implements Serializable
     private double salePrice;       // Sale price of product
     private int productQuantity;    // Avaliable quantity of product
     private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
+    //private List<Waitlist> waitlist = new LinkedList<Waitlist>();
     
     private static final String PRODUCT_STRING = "M";
     
@@ -19,6 +20,11 @@ public class Product implements Serializable
         productName = name;
         salePrice = price;
         productQuantity = 0;
+    }
+    
+    public boolean addToWaitList(Client client, int quantity)
+    {
+    	return true;
     }
     
     public boolean addSuppliedProduct(SuppliedProduct sp)

@@ -5,25 +5,25 @@ import java.io.*;
 class SuppliedProduct implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	private String productId;
-	private String supplierId;
+	private Product product;
+	private Supplier supplier;
 	private double purchasedPrice;
 	
-	public SuppliedProduct(String pId, String sId, double price)
+	public SuppliedProduct(Product p, Supplier s, double price)
 	{
-		productId = pId;
-		supplierId = sId;
+		product = p;
+		supplier = s;
 		purchasedPrice = price;
 	}
 	
-	public String getProductId()
+	public Product getProduct()
 	{
-		return productId;
+		return product;
 	}
 	
-	public String getSupplierId()
+	public Supplier getSupplier()
 	{
-		return supplierId;
+		return supplier;
 	}
 	
 	public double getPrice()

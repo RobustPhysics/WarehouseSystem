@@ -11,7 +11,9 @@ public class Client implements Serializable
 	private String id;
 	private String name;
 	private double amountDue;
+	//NOTE: Software class diagram uses a separate class as a cart
 	private List<LineItem> cart;
+	//private List<Invoice> invoices;
 	
 	public Client (String name)
 	{
@@ -29,6 +31,47 @@ public class Client implements Serializable
 	public double getAmountDue()
 	{
 		return amountDue;
+	}
+	
+	public boolean processOrder()
+	{
+		//NOTE: Sequence diagram should show client object processing order, not warehouse
+		/*
+		//NOTE: Is this a long method? Should parts be broken up into private methods?
+		//i.e. method to generate invoice, to add to waitlist, etc?
+		Iterator cart = client.getCart();
+		if (!cart.hasNext())
+		{
+			return false; //return that client had no items in cart to process
+		}
+		while (cart.hasNext())
+		{
+			LineItem item = (LineItem) cart.next();
+			Product product = getProduct(item.getProductId());
+			if (product != null)
+			{
+				if (product.getQuantity() >= item.getProductQuantity())
+				{
+					//NOTE: Generate invoice
+					double amountDue = item.getProductPrice() * item.getProductQuantity();
+					client.incrementAmountDue(amountDue);
+				}
+				else
+				{
+					//NOTE: Add to waitlist
+				}
+			}
+			else
+			{
+				//NOTE: product doesn't exist, what do we do?
+				//Maybe remove line item from cart?
+			}
+		}
+		
+		return true;
+		*/
+		
+		return true;
 	}
 	
 	public void incrementAmountDue(double amount)

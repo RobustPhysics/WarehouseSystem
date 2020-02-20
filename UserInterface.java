@@ -305,6 +305,7 @@ public class UserInterface
 	
 	public void getProductInfo()
 	{
+		//NOTE: Perhaps this should only display waitlist for product? Or waitlist AND suppliers?
 		String id = getToken("Enter product ID to view a list of suppliers that supply this product");
 		Product product = warehouse.getProduct(id);
 		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
@@ -316,7 +317,7 @@ public class UserInterface
 			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
 			if (sp != null)
 			{
-				Supplier supplier = warehouse.getSupplier(sp.getSupplierId());
+				Supplier supplier = sp.getSupplier();
 				System.out.println("\t" + supplier);
 			}
 			else
@@ -339,7 +340,7 @@ public class UserInterface
 			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
 			if (sp != null)
 			{
-				Product product = warehouse.getProduct(sp.getProductId());
+				Product product = sp.getProduct();
 				System.out.println("\t" + product);
 			}
 			else
@@ -351,14 +352,28 @@ public class UserInterface
 	
 	public void showOutstandingClients()
 	{
-		//NOTE: Perhaps get an iterator of the outstanding clients from warehouse directly?
-		Iterator clients = warehouse.getClients();
+		Iterator outstandingClients = warehouse.getOutstandingClients();
 		
+		System.out.println("The following clients have an outstanding balance.");
+		while (outstandingClients.hasNext())
+		{
+			Client client = (Client) outstandingClients.next();
+			if (client != null)
+			{
+				System.out.println("\t" + client);
+				System.out.println("\t\tAmount due: " + client.getAmountDue());
+			}
+			else
+			{
+				//What to do if it's null??
+			}
+		}
 		
 	}
 	
 	public void showWaitListProducts()
 	{
+		//NOTE: Where is wait list stored?
 		System.out.println("Dummy action.");
 	}
 	

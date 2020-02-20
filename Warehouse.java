@@ -122,10 +122,9 @@ public class Warehouse implements Serializable
 	
 	public boolean addProductSupplier(String productId, String supplierId, double purchasePrice)
 	{
-		SuppliedProduct sp = new SuppliedProduct(productId, supplierId, purchasePrice);
-		
 		Product product = getProduct(productId);
 		Supplier supplier = getSupplier(supplierId);
+		
 		if (product == null)
 		{
 			System.out.println("Unable to find product " + productId);
@@ -136,6 +135,7 @@ public class Warehouse implements Serializable
 			System.out.println("Unable to find supplier " + supplierId);
 			return false;
 		}
+		SuppliedProduct sp = new SuppliedProduct(product, supplier, purchasePrice);
 		
 		boolean r1 = product.addSuppliedProduct(sp);
 		boolean r2 = supplier.addSuppliedProduct(sp);
@@ -206,36 +206,7 @@ public class Warehouse implements Serializable
 		Client client = getClient(clientId);
 		if (client != null)
 		{
-			Iterator cart = client.getCart();
-			if (!cart.hasNext())
-			{
-				return false; //return that client had no items in cart to process
-			}
-			while (cart.hasNext())
-			{
-				LineItem item = (LineItem) cart.next();
-				Product product = getProduct(item.getProductId());
-				if (product != null)
-				{
-					if (product.getQuantity() >= item.getProductQuantity())
-					{
-						//NOTE: Generate invoice
-						double amountDue = item.getProductPrice() * item.getProductQuantity();
-						client.incrementAmountDue(amountDue);
-					}
-					else
-					{
-						//NOTE: Add to waitlist
-					}
-				}
-				else
-				{
-					//NOTE: product doesn't exist, what do we do?
-					//Maybe remove line item from cart?
-				}
-			}
-			
-			return true;
+			return client.processOrder();
 		}
 		else
 		{
