@@ -9,27 +9,20 @@ public class Invoice implements Serializable {
 	private Product product;
 	private String description;
 	private double totalCost;
-
-	public void setDate(String d) {
+	
+	public Invoice(String d, Product p, String desc, double cost)
+	{
 		date = d;
-	}
-	public void setProducts(Product p) {
 		product = p;
-	}
-	
-	public void setDescription(String d) {
-		description = d;
-	}
-	
-	public void setTotalCost(double c) {
-		totalCost = c;
+		description = desc;
+		totalCost = cost;
 	}
 	
 	public String getDate() {
 		return date;
 	}
 
-	public Product getProducts() {
+	public Product getProduct() {
 		return product;
 	}
 
