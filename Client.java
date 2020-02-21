@@ -1,5 +1,4 @@
 //Miranda
-//include constructor, get, set, variables as needed
 
 import java.util.*;
 import java.io.*;
@@ -36,7 +35,7 @@ public class Client implements Serializable
 	public boolean processOrder()
 	{
 		//NOTE: Sequence diagram should show the client object processing the order, not warehouse
-		/*
+		
 		//NOTE: Is this a long method? Should parts be broken up into private methods?
 		//i.e. method to generate invoice, to add to waitlist, etc?
 		Iterator cart = client.getCart();
@@ -58,20 +57,20 @@ public class Client implements Serializable
 				}
 				else
 				{
-					//NOTE: Add to waitlist
+					//NOTE: Add item to waitlist
 					WaitListItem item2 = new WaitListItem(productId, price, quantity);
 				}
 			}
 			else
 			{
 				//NOTE: product doesn't exist, what do we do?
-				//Maybe remove line item from cart?
+				//Remove line item from cart?
 				client.removeFromCart(item);
 			}
 		}
 		
-		return true;
-		*/
+		//return true;
+		
 		
 		return true;
 	}

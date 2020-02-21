@@ -36,68 +36,9 @@ public class ClientList implements Serializable
 		return clients.iterator();
 	}
 	
-	/*
-	private void writeObject(java.io.ObjectOutputStream output)
-	{
-		try
-		{
-			output.defaultWriteObject();
-			output.writeObject(clientList);
-		}catch(IOException ioe)
-		{
-		ioe.printStackTrace();
-		}
-	}
-	private void readObject (java.io.ObjectInputStream input)
-	{
-		try
-		{
-			if(clientList !=null)
-			{
-				return;
-			}
-			else
-			{
-				input.defaultReadObject();
-				if(clientList == null)
-				{
-					clientList=(ClientList) input.readObject();
-				}
-				else
-				{
-					input.readObject();
-				}
-			}
-		}catch(IOException ioe)
-		{
-		ioe.printStackTrace();
-		}catch(ClassNotFoundException crne)
-		{
-			crne.printStackTrace();
-		}
-	}
-	*/
-	
 	public String toString()
 	{
 		return clients.toString();
 	}
 }
-	//************Clare initial stuff below***************
-//	private static ClientList singleton;
-//	List<Client> clients;
-	
-//	private ClientList()
-//	{
-//	}
-	
-//	public static ClientList getInstance()
-//	{
-//		return singleton;
-//	}
-	
-//	public Iterator GetClients()
-//	{
-//		return clients.iterator();
-//	}
-//}
+
