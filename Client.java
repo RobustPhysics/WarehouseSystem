@@ -12,11 +12,10 @@ public class Client implements Serializable
 	private double amountDue;
 	//NOTE: Software class diagram uses a separate class as a cart
 	private List<LineItem> cart;
-	//private List<Invoice> invoices;
+	private List<Invoice> invoiceList;
 	
 	public Client (String name)
 	{
-		//this.id=id;
 		this.name=name;
 		id = CLIENT_STRING + (IdServer.instance()).getClientId();
 		cart = new LinkedList<LineItem>();
@@ -38,7 +37,7 @@ public class Client implements Serializable
 		
 		//NOTE: Is this a long method? Should parts be broken up into private methods?
 		//i.e. method to generate invoice, to add to waitlist, etc?
-		Iterator cart = client.getCart();
+		Iterator cart = getCart();
 		if (!cart.hasNext())
 		{
 			return false; //return that client had no items in cart to process
@@ -51,21 +50,24 @@ public class Client implements Serializable
 			{
 				if (product.getQuantity() >= item.getProductQuantity())
 				{
-					//NOTE: Generate invoice
 					double amountDue = item.getProductPrice() * item.getProductQuantity();
+					Date d = new Date();
+					String desc="Bought "+item.getProductQuantity()+ " of" +product.getName();
+					Invoice invoice=new Invoice(d.toString, product, desc, amountDue);
+					invoiceList.add(invoice);
 					client.incrementAmountDue(amountDue);
 				}
 				else
 				{
-					//NOTE: Add item to waitlist
-					WaitListItem item2 = new WaitListItem(productId, price, quantity);
+					Date d = new Date();
+					product.addWaitListItem(this,item.getProductQuantity(),d.toString());
 				}
 			}
 			else
 			{
 				//NOTE: product doesn't exist, what do we do?
 				//Remove line item from cart?
-				client.removeFromCart(item);
+				//removeFromCart(item);
 			}
 		}
 		
