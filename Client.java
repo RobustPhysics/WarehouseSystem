@@ -35,7 +35,7 @@ public class Client implements Serializable
 	
 	public boolean processOrder()
 	{
-		//NOTE: Sequence diagram should show client object processing order, not warehouse
+		//NOTE: Sequence diagram should show the client object processing the order, not warehouse
 		/*
 		//NOTE: Is this a long method? Should parts be broken up into private methods?
 		//i.e. method to generate invoice, to add to waitlist, etc?

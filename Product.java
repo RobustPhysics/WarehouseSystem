@@ -27,6 +27,11 @@ public class Product implements Serializable
     	return true;
     }
     
+    public Iterator getWaitlist()
+    {
+    	return null;
+    }
+    
     public boolean addSuppliedProduct(SuppliedProduct sp)
     {
     	return true;

@@ -16,16 +16,16 @@ public class UserInterface
 		ADD_CLIENT("Adds client to system"),
 		ADD_PRODUCT("Adds product to system"),
 		ADD_SUPPLIER("Adds supplier to system"),
-		ADD_TO_CART("Unimplemented"),
+		ADD_TO_CART("Adds a specified product to a clients shopping cart"),
 		REMOVE_FROM_CART("Unimplemented"),
 		UPDATE_PRODUCT_IN_CART("Unimplemented"),
-		PROCESS_ORDER("Unimplemented"),
+		PROCESS_ORDER("When client shopping cart is full, use this to process their order"),
 		
 		SHOW_CLIENT_TRANSACTIONS("Unimplemented"),
-		GET_PRODUCT_INFO("Unimplemented"),
-		GET_SUPPLIER_INFO("Unimplemented"),
-		SHOW_OUTSTANDING_CLIENTS("Unimplemented"),
-		SHOW_WAIT_LIST_PRODUCTS("Unimplemented"),
+		GET_PRODUCT_INFO("Shows information on a specified product and whom supplies it"),
+		GET_SUPPLIER_INFO("Shows a list of all products supplied by the specified supplier"),
+		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
+		SHOW_WAIT_LIST_PRODUCTS("Shows a list of every product and the waitlists for that product."),
 		SHOW_CLIENTS("Shows clients in database"),
 		SHOW_PRODUCTS("Shows products in database"),
 		SHOW_SUPPLIERS("Shows suppliers in database"),
@@ -278,7 +278,6 @@ public class UserInterface
 	
 	public void processOrder()
 	{
-		System.out.println("Dummy action.");
 		String clientId = getToken("Enter client ID whose cart will be added to");
 		
 		boolean result = warehouse.processOrder(clientId);
@@ -315,15 +314,8 @@ public class UserInterface
 		while (suppliedProducts.hasNext())
 		{
 			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
-			if (sp != null)
-			{
-				Supplier supplier = sp.getSupplier();
-				System.out.println("\t" + supplier);
-			}
-			else
-			{
-				//How to treat a supplied product that doesn't exist?
-			}
+			Supplier supplier = sp.getSupplier();
+			System.out.println("\t" + supplier);
 		}
 	}
 	
@@ -338,15 +330,8 @@ public class UserInterface
 		while (suppliedProducts.hasNext())
 		{
 			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
-			if (sp != null)
-			{
-				Product product = sp.getProduct();
-				System.out.println("\t" + product);
-			}
-			else
-			{
-				//How to treat a supplied product that doesn't exist?
-			}
+			Product product = sp.getProduct();
+			System.out.println("\t" + product);
 		}
 	}
 	
@@ -368,13 +353,31 @@ public class UserInterface
 				//What to do if it's null??
 			}
 		}
-		
 	}
 	
-	public void showWaitListProducts()
+	public void showWaitlistProducts()
 	{
-		//NOTE: Where is wait list stored?
-		System.out.println("Dummy action.");
+		Iterator products = warehouse.getProducts();
+		int productIndex = 1;
+		while (products.hasNext())
+		{
+			Product p = (Product) products.next();
+			Iterator waitlist = p.getWaitlist();
+			int itemIndex = 1;
+			//NOTE: Should we get waitlist directly from product p?
+			//Or have warehouse get waitlist from product ID?
+			//Iterator waitlist = warehouse.getProductWaitlist(p.getProductID());
+			
+			System.out.println(productIndex + ". The following is the waitlist for Product " + p.getProductName());
+			while (waitlist.hasNext())
+			{
+				WaitlistItem item = (WaitlistItem) waitlist.next();
+				System.out.println("\t" + itemIndex + "." + item);
+				itemIndex++;
+			}
+			
+			productIndex++;
+		}
 	}
 	
 	public void showClients()
@@ -476,7 +479,7 @@ public class UserInterface
 					showOutstandingClients();
 					break;
 				case SHOW_WAIT_LIST_PRODUCTS:
-					showWaitListProducts();
+					showWaitlistProducts();
 					break;
 				///////
 				///////
