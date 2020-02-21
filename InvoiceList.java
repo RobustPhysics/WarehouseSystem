@@ -76,7 +76,8 @@ public class InvoiceList implements Serializable {
 		}
 	}
 	*/
-	public String toString() {
+	public String toString()
+	{
 		return invoices.toString();
 	}
 	
