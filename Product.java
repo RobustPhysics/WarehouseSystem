@@ -5,12 +5,12 @@ import java.io.*;
 public class Product implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-    private String productID;          // Unique product ID
+    private String productID;       // Unique product ID
     private String productName;     // Name of product
     private double salePrice;       // Sale price of product
     private int productQuantity;    // Avaliable quantity of product
     private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
-    //private List<Waitlist> waitlist = new LinkedList<Waitlist>();
+    private List<WaitlistItem> waitlist = new LinkedList<WaitlistItem>();
     
     private static final String PRODUCT_STRING = "M";
     
@@ -22,9 +22,10 @@ public class Product implements Serializable
         productQuantity = 0;
     }
     
-    public boolean addToWaitList(Client client, int quantity)
+    public boolean addToWaitList(Client client, int quantity, String date)
     {
-    	return true;
+        WaitlistItem item = new WaitlistItem(client, quantity, date);
+    	return waitlist.add(item);
     }
     
     public Iterator getWaitlist()
@@ -34,7 +35,7 @@ public class Product implements Serializable
     
     public boolean addSuppliedProduct(SuppliedProduct sp)
     {
-    	return true;
+    	return suppliedProducts.add(sp);
     }
     
     public Iterator getSuppliedProducts()
@@ -73,7 +74,7 @@ public class Product implements Serializable
     public void setQuantity(int quantity) {
         productQuantity = quantity;
     }
-    
+
     public String toString() {
         String string = "id " + productID + " name " + productName + "($" + salePrice + " x " + productQuantity + ")";
         return string;
