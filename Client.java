@@ -59,12 +59,14 @@ public class Client implements Serializable
 				else
 				{
 					//NOTE: Add to waitlist
+					WaitListItem item2 = new WaitListItem(productId, price, quantity);
 				}
 			}
 			else
 			{
 				//NOTE: product doesn't exist, what do we do?
 				//Maybe remove line item from cart?
+				client.removeFromCart(item);
 			}
 		}
 		
@@ -76,7 +78,7 @@ public class Client implements Serializable
 	
 	public void incrementAmountDue(double amount)
 	{
-		
+		amountDue=amountDue+amount;
 	}
 	
 	public Iterator getCart()
