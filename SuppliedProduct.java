@@ -30,4 +30,9 @@ class SuppliedProduct implements Serializable
 	{
 		return purchasedPrice;
 	}
+	
+	public String toString()
+	{
+		return  supplier.toString() +  "\n" + product.toString() + "\nPrice " + String.format("%.2f", price);
+	}
 }

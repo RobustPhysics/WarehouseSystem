@@ -1,6 +1,6 @@
 //Barrett
 //InvoiceList.java
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
