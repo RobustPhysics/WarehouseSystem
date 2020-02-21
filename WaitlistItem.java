@@ -12,28 +12,13 @@ public class WaitlistItem implements Serializable{
 	private double price;
 	private String date;      // Date added to the list
 	
-	public WaitlistItem(Client client, Product product, int quantity)
+	public WaitlistItem(Client client, Product product, int quantity, String date)
 	{
 		this.client = client;
 		this.product = product; 
 		this.quantity = quantity;
+		this.date = date
 		
-	}
-	
-	public void setQuantity(int q) {
-		quantity = q;
-	}
-
-	public void setClient(Client c) {
-		client = c;
-	}
-
-	public void setPrice(double p) {
-		price = p;
-	}
-
-	public void setDate(String d) {
-		date = d;
 	}
 	
 	public Client getClient(){
@@ -52,11 +37,6 @@ public class WaitlistItem implements Serializable{
 		return date;
 	}
 	
-	public void decrementQuantity(int quantity) {
-		this.quantity -= quantity;
-	}
-
- 
 	
 	public String toString() {
 		return "Waitlist Item: \nClient ID: " + client.getId() + "\n" + product.toString() + "\nQuantity: " + quantity;
