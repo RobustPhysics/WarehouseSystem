@@ -21,7 +21,7 @@ public class Supplier implements Serializable {
   
   public boolean addSuppliedProduct(SuppliedProduct sp)
   {
-  	return true;
+	return suppliedProducts.add(sp);
   }
   
   public void setName(String name)
@@ -48,18 +48,18 @@ public class Supplier implements Serializable {
     return address;
   }
   
-  
   public Iterator getSuppliedProducts()
   {
     return suppliedProducts.iterator();
   }
   
-  
+ 
   public boolean assignProduct(SuppliedProduct sp)
   {
     return suppliedProducts.add(sp);
   }
 
+/*
   public boolean unassignProduct(String productID, String manufacturerID)
   {
     Iterator suppliesIterator = suppliedProducts.iterator();
@@ -79,9 +79,8 @@ public class Supplier implements Serializable {
     return false; //Couldn't find Supplies object to unassign
    
    }
-   
+*/
 
-  
   public String toString() {
     //String str = "Supplier ID: " + supplierID + " \nName: " + name + "\nAddress: " + address;
 	String str = " id " + supplierID + " name " + name + " (" + address + ")";
