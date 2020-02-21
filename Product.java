@@ -30,7 +30,7 @@ public class Product implements Serializable
     
     public Iterator getWaitlist()
     {
-    	return null;
+    	return waitlist.iterator();
     }
     
     public boolean addSuppliedProduct(SuppliedProduct sp)
@@ -40,7 +40,7 @@ public class Product implements Serializable
     
     public Iterator getSuppliedProducts()
     {
-  	  return null;
+  	  return suppliedProducts.iterator();
     }
     
     public String getProductID() {
