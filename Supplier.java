@@ -24,11 +24,6 @@ public class Supplier implements Serializable {
   	return true;
   }
   
-  public Iterator getSuppliedProducts()
-  {
-	  return null;
-  }
-  
   public void setName(String name)
   {
     this.name = name;
@@ -53,13 +48,13 @@ public class Supplier implements Serializable {
     return address;
   }
   
-  /*
+  
   public Iterator getSuppliedProducts()
   {
     return suppliedProducts.iterator();
   }
-  */
-  /*
+  
+  
   public boolean assignProduct(SuppliedProduct sp)
   {
     return suppliedProducts.add(sp);
@@ -84,7 +79,7 @@ public class Supplier implements Serializable {
     return false; //Couldn't find Supplies object to unassign
    
    }
-   */
+   
 
   
   public String toString() {
