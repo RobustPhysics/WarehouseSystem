@@ -55,7 +55,7 @@ public class Client implements Serializable
 					String desc="Bought "+item.getProductQuantity()+ " of" +product.getName();
 					Invoice invoice=new Invoice(d.toString, product, desc, amountDue);
 					invoiceList.add(invoice);
-					incrementAmountDue(amountDue);
+					client.incrementAmountDue(amountDue);
 				}
 				else
 				{
