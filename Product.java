@@ -12,7 +12,7 @@ public class Product implements Serializable
     private List<SuppliedProduct> suppliedProducts = new LinkedList<SuppliedProduct>();
     private List<WaitlistItem> waitlist = new LinkedList<WaitlistItem>();
     
-    private static final String PRODUCT_STRING = "M";
+    private static final String PRODUCT_STRING = "P";
     
     // Constructor
     public Product(String name, double price) {

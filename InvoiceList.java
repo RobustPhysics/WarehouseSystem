@@ -32,6 +32,7 @@ public class InvoiceList implements Serializable {
 		return invoices.iterator();
 	}
 	
+	/*
 	public Invoice searchInvoice(String invoiceID)
 	{
 		Iterator<Invoice> invoiceIterator = invoices.iterator();
@@ -47,35 +48,8 @@ public class InvoiceList implements Serializable {
 
 		return null;
 	}
-	/*
-	private void writeObject(java.io.ObjectOutputStream output) {
-		try {
-			output.defaultWriteObject();
-			output.writeObject(invoicelist);
-		} catch(IOException ioe) {
-			System.out.println(ioe);
-		}
-	}
-	
-	private void readObject(java.io.ObjectInputStream input) {
-		try {
-			if (invoicelist != null) {
-				return;
-			} else {
-				input.defaultReadObject();
-				if (invoicelist == null) {
-					invoicelist = (InvoiceList) input.readObject();
-				} else {
-					input.readObject();
-				}
-			}
-		} catch(IOException ioe) {
-			System.out.println("in InvoiceList readObject \n" + ioe);
-		} catch(ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
-		}
-	}
 	*/
+	
 	public String toString()
 	{
 		return invoices.toString();

@@ -80,7 +80,7 @@ public class Warehouse implements Serializable
 		while (clients.hasNext())
 		{
 			Client client = (Client) clients.next();
-			if (client != null && client.getId() == id)
+			if (client.getId().equals(id))
 			{
 				return client;
 			}
@@ -97,7 +97,7 @@ public class Warehouse implements Serializable
 		while (products.hasNext())
 		{
 			Product product = (Product) products.next();
-			if (product.getProductID() == id)
+			if (product.getProductID().equals(id))
 			{
 				return product;
 			}
@@ -136,7 +136,7 @@ public class Warehouse implements Serializable
 		while (suppliers.hasNext())
 		{
 			Supplier supplier = (Supplier) suppliers.next();
-			if (supplier != null && supplier.getSupplierID() == id)
+			if (supplier.getSupplierID().equals(id))
 			{
 				return supplier;
 			}
@@ -145,7 +145,7 @@ public class Warehouse implements Serializable
 		return null;
 	}
 	
-	public boolean addProductSupplier(String productId, String supplierId, double purchasePrice)
+	public boolean addSuppliedProduct(String productId, String supplierId, double purchasePrice)
 	{
 		Product product = getProduct(productId);
 		Supplier supplier = getSupplier(supplierId);
@@ -186,7 +186,7 @@ public class Warehouse implements Serializable
 		//NOTE: We do not need to worry if product is out of stock
 		//That's only a concern for processOrder()
 		double price = product.getSalePrice();
-		LineItem item = new LineItem(productId, price, quantity);
+		LineItem item = new LineItem(product, price, quantity);
 		
 		return client.addToCart(item);
 	}

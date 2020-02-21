@@ -16,6 +16,7 @@ public class UserInterface
 		ADD_CLIENT("Adds client to system"),
 		ADD_PRODUCT("Adds product to system"),
 		ADD_SUPPLIER("Adds supplier to system"),
+		ADD_SUPPLIED_PRODUCT("Adds supplied-product to product/supplier"),
 		ADD_TO_CART("Adds a specified product to a clients shopping cart"),
 		REMOVE_FROM_CART("Unimplemented"),
 		UPDATE_PRODUCT_IN_CART("Unimplemented"),
@@ -293,8 +294,21 @@ public class UserInterface
 	
 	public void addSuppliedProduct()
 	{
-		//NOTE: Method not currently in business process
-		System.out.println("Dummy action.");
+		String supplierId = getToken("Enter supplier ID");
+		String productId = getToken("Enter product ID");
+		String priceStr = getToken("Enter purchase price for product");
+		
+		double price = Double.parseDouble(priceStr);
+		
+		boolean result = warehouse.addSuppliedProduct(productId, supplierId, price);
+		if (result)
+		{
+			System.out.println("Supplier-Product relationship added for supplier " + supplierId + " and product " + productId);
+		}
+		else
+		{
+			System.out.println("Failed to add supplier-product relationship");
+		}
 	}
 	
 	public void showClientTransactions()
@@ -462,6 +476,9 @@ public class UserInterface
 					break;
 				case ADD_SUPPLIER:
 					addSupplier();
+					break;
+				case ADD_SUPPLIED_PRODUCT:
+					addSuppliedProduct();
 					break;
 				case ADD_TO_CART:
 					addToCart();

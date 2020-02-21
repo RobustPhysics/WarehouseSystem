@@ -45,22 +45,23 @@ public class Client implements Serializable
 		while (cart.hasNext())
 		{
 			LineItem item = (LineItem) cart.next();
-			Product product = getProduct(item.getProductId());
+			//NOTE: How do we get the product from the client???
+			Product product = item.getProduct();
 			if (product != null)
 			{
 				if (product.getQuantity() >= item.getProductQuantity())
 				{
 					double amountDue = item.getProductPrice() * item.getProductQuantity();
 					Date d = new Date();
-					String desc="Bought "+item.getProductQuantity()+ " of" +product.getName();
-					Invoice invoice=new Invoice(d.toString, product, desc, amountDue);
+					String desc="Bought "+item.getProductQuantity()+ " of" +product.getProductName();
+					Invoice invoice=new Invoice(d.toString(), product, desc, amountDue);
 					invoiceList.add(invoice);
-					client.incrementAmountDue(amountDue);
+					incrementAmountDue(amountDue);
 				}
 				else
 				{
 					Date d = new Date();
-					product.addWaitListItem(this,item.getProductQuantity(),d.toString());
+					product.addToWaitList(this,item.getProductQuantity(),d.toString());
 				}
 			}
 			else
@@ -70,9 +71,6 @@ public class Client implements Serializable
 				//removeFromCart(item);
 			}
 		}
-		
-		//return true;
-		
 		
 		return true;
 	}

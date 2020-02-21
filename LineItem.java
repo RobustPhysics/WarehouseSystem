@@ -8,20 +8,20 @@ public class LineItem implements Serializable {
 	//clients cart. 
 	
 	private static final long serialVersionUID = 1L;
-	private String productId;
+	private Product product;
 	private double productPrice;
 	private int productQuantity;
 	
-	public LineItem(String id, double price, int quantity)
+	public LineItem(Product p, double price, int quantity)
 	{
-		productId = id;
+		product = p;
 		productPrice = price;
 		productQuantity = quantity;
 	}
 	
-	public String getProductId()
+	public Product getProduct()
 	{
-		return productId;
+		return product;
 	}
 	
 	public double getProductPrice()
