@@ -17,7 +17,7 @@ public class WaitlistItem implements Serializable{
 		this.client = client;
 		this.product = product; 
 		this.quantity = quantity;
-		this.date = date
+		this.date = date;
 		
 	}
 	
