@@ -27,6 +27,7 @@ public class UserInterface
 		GET_SUPPLIER_INFO("Shows a list of all products supplied by the specified supplier"),
 		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
 		SHOW_WAIT_LIST_PRODUCTS("Shows a list of every product and the waitlists for that product."),
+		SHOW_CLIENT_CART("Shows all line items in a specified clients cart"),
 		SHOW_CLIENTS("Shows clients in database"),
 		SHOW_PRODUCTS("Shows products in database"),
 		SHOW_SUPPLIERS("Shows suppliers in database"),
@@ -322,7 +323,7 @@ public class UserInterface
 		String id = getToken("Enter product ID to view a list of suppliers that supply this product");
 		Product product = warehouse.getProduct(id);
 		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
-		Iterator suppliedProducts = product.getSuppliedProducts();
+		Iterator suppliedProducts = warehouse.getSuppliedProductsFromProduct(id);
 		
 		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
 		while (suppliedProducts.hasNext())
@@ -338,7 +339,7 @@ public class UserInterface
 		String id = getToken("Enter supplier ID to view a list of suppliers that supply this product");
 		Supplier supplier = warehouse.getSupplier(id);
 		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
-		Iterator suppliedProducts = supplier.getSuppliedProducts();
+		Iterator suppliedProducts = warehouse.getSuppliedProductsFromSupplier(id);
 		
 		System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
 		while (suppliedProducts.hasNext())
@@ -391,6 +392,19 @@ public class UserInterface
 			}
 			
 			productIndex++;
+		}
+	}
+	
+	public void showClientCart()
+	{
+		String clientId = getToken("Enter client ID whose cart will be added to");
+		
+		Iterator cart = warehouse.getClientCart(clientId);
+		System.out.println("Cart for client " + clientId);
+		while (cart.hasNext())
+		{
+			LineItem item = (LineItem) cart.next();
+			System.out.println("\t" + item);
 		}
 	}
 	
@@ -497,6 +511,9 @@ public class UserInterface
 					break;
 				case SHOW_WAIT_LIST_PRODUCTS:
 					showWaitlistProducts();
+					break;
+				case SHOW_CLIENT_CART:
+					showClientCart();
 					break;
 				///////
 				///////

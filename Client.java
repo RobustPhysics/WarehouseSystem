@@ -82,7 +82,7 @@ public class Client implements Serializable
 	
 	public Iterator getCart()
 	{
-		return null;
+		return cart.iterator();
 	}
 	
 	public String getId()

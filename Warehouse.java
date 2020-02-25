@@ -117,12 +117,23 @@ public class Warehouse implements Serializable
 		return null;
 	}
 	
-	public Iterator getSuppliedProducts(String productId)
+	public Iterator getSuppliedProductsFromProduct(String productId)
 	{
 		Product product = getProduct(productId);
 		if (product != null)
 		{
 			return product.getSuppliedProducts();
+		}
+		
+		return null;
+	}
+	
+	public Iterator getSuppliedProductsFromSupplier(String supplierId)
+	{
+		Supplier supplier = getSupplier(supplierId);
+		if (supplier != null)
+		{
+			return supplier.getSuppliedProducts();
 		}
 		
 		return null;
@@ -166,6 +177,17 @@ public class Warehouse implements Serializable
 		boolean r2 = supplier.addSuppliedProduct(sp);
 		
 		return r1 && r2;
+	}
+	
+	public Iterator getClientCart(String clientId)
+	{
+		Client client = getClient(clientId);
+		if (client == null)
+		{
+			return null;
+		}
+		
+		return client.getCart();
 	}
 	
 	public boolean addToCart(String clientId, String productId, int quantity)

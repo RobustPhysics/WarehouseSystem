@@ -38,4 +38,11 @@ public class LineItem implements Serializable {
 	{
 		productQuantity = quantity;
 	}
+	
+	public String toString()
+	{
+		double total = productPrice*productQuantity;
+		String str = "LineItem: " + productQuantity + "x " + product.getProductID() + " at $" + productPrice + " each (total $" + total +")";
+		return str;
+	}
 }
