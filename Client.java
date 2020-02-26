@@ -10,7 +10,7 @@ public class Client implements Serializable
 	private String id;
 	private String name;
 	private double amountDue;
-	//NOTE: Software class diagram uses a separate class as a cart
+	//TODO: Software class diagram uses a separate class as a cart
 	private List<LineItem> cart;
 	private List<Invoice> invoiceList;
 	
@@ -46,9 +46,9 @@ public class Client implements Serializable
 	
 	public boolean processOrder()
 	{
-		//NOTE: Sequence diagram should show the client object processing the order, not warehouse
+		//TODO: Sequence diagram should show the client object processing the order, not warehouse
 		
-		//NOTE: Is this a long method? Should parts be broken up into private methods?
+		//TODO: Is this a long method? Should parts be broken up into private methods?
 		//i.e. method to generate invoice, to add to waitlist, etc?
 		Iterator shoppingCart = getCart();
 		if (!shoppingCart.hasNext())
@@ -82,7 +82,7 @@ public class Client implements Serializable
 			{
 				//If product doesn't exist, do nothing.
 				//It will be removed later.
-				//NOTE: Should we inform user that it wasn't processed?
+				//TODO: Should we inform user that it wasn't processed?
 			}
 		}
 		

@@ -179,6 +179,11 @@ class tester
 		
 		//////////////////////////////////////////////////////
 		
+		System.out.println("Expected output: ");
+		System.out.println();
+		
+		System.out.println("REAL OUTPUT");
+		
 		clients = warehouse.getClients();
 		while (clients.hasNext())
 		{
@@ -190,6 +195,24 @@ class tester
 			{
 				Invoice invoice = (Invoice) invoices.next();
 				System.out.println("\t" + invoice);
+			}
+		}
+		
+		//////////////////////////////////////////////////////
+		
+		System.out.println("Expected output: ");
+		System.out.println();
+		
+		System.out.println("REAL OUTPUT");
+		
+		clients = warehouse.getClients();
+		System.out.println("Clients with an outstanding balance include...");
+		while (clients.hasNext())
+		{
+			Client client = (Client) clients.next();
+			if (client.getAmountDue() > 0)
+			{
+				System.out.println("\tClient: " + client + " has $" + client.getAmountDue() + " due!");
 			}
 		}
 	}
