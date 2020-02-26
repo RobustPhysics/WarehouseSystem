@@ -8,29 +8,29 @@ class SuppliedProduct implements Serializable
 	private Product product;
 	private Supplier supplier;
 	private double purchasedPrice;
-	
+
 	public SuppliedProduct(Product p, Supplier s, double price)
 	{
 		product = p;
 		supplier = s;
 		purchasedPrice = price;
 	}
-	
+
 	public Product getProduct()
 	{
 		return product;
 	}
-	
+
 	public Supplier getSupplier()
 	{
 		return supplier;
 	}
-	
+
 	public double getPrice()
 	{
 		return purchasedPrice;
 	}
-	
+
 	public String toString()
 	{
 		return  supplier.toString() +  "\n" + product.toString() + "\nPrice " + String.format("%.2f", purchasedPrice);
