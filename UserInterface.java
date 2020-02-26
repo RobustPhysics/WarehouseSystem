@@ -387,8 +387,15 @@ public class UserInterface
 		while (outstandingClients.hasNext())
 		{
 			Client client = (Client) outstandingClients.next();
-			System.out.println("\t" + client);
-			System.out.println("\t\tAmount due: " + client.getAmountDue());
+			if (client != null)
+			{
+				System.out.println("\t" + client);
+				System.out.println("\t\tAmount due: " + client.getAmountDue());
+			}
+			else
+			{
+				//What to do if it's null??
+			}
 		}
 	}
 	
@@ -396,7 +403,6 @@ public class UserInterface
 	{
 		Iterator products = warehouse.getProducts();
 		int productIndex = 1;
-		
 		while (products.hasNext())
 		{
 			Product p = (Product) products.next();
