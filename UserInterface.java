@@ -387,15 +387,8 @@ public class UserInterface
 		while (outstandingClients.hasNext())
 		{
 			Client client = (Client) outstandingClients.next();
-			if (client != null)
-			{
-				System.out.println("\t" + client);
-				System.out.println("\t\tAmount due: " + client.getAmountDue());
-			}
-			else
-			{
-				//What to do if it's null??
-			}
+			System.out.println("\t" + client);
+			System.out.println("\t\tAmount due: " + client.getAmountDue());
 		}
 	}
 	
