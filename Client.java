@@ -19,11 +19,24 @@ public class Client implements Serializable
 		this.name=name;
 		id = CLIENT_STRING + (IdServer.instance()).getClientId();
 		cart = new LinkedList<LineItem>();
+		invoiceList = new LinkedList<Invoice>();
 	}
 	
 	public boolean addToCart(LineItem item)
 	{
 		return cart.add(item);
+	}
+	
+	public boolean removeFromCart(String productId)
+	{
+		//TODO
+		return true;
+	}
+	
+	public boolean updateProductInCart(String productId, int newQuantity)
+	{
+		//TODO
+		return true;
 	}
 	
 	public double getAmountDue()
@@ -37,15 +50,14 @@ public class Client implements Serializable
 		
 		//NOTE: Is this a long method? Should parts be broken up into private methods?
 		//i.e. method to generate invoice, to add to waitlist, etc?
-		Iterator cart = getCart();
-		if (!cart.hasNext())
+		Iterator shoppingCart = getCart();
+		if (!shoppingCart.hasNext())
 		{
 			return false; //return that client had no items in cart to process
 		}
-		while (cart.hasNext())
+		while (shoppingCart.hasNext())
 		{
-			LineItem item = (LineItem) cart.next();
-			//NOTE: How do we get the product from the client???
+			LineItem item = (LineItem) shoppingCart.next();
 			Product product = item.getProduct();
 			if (product != null)
 			{
@@ -53,26 +65,39 @@ public class Client implements Serializable
 				{
 					double amountDue = item.getProductPrice() * item.getProductQuantity();
 					Date d = new Date();
-					String desc="Bought "+item.getProductQuantity()+ " of" +product.getProductName();
+					String desc="Bought "+item.getProductQuantity()+ " of " +product.getProductName();
 					Invoice invoice=new Invoice(d.toString(), product, desc, amountDue);
 					invoiceList.add(invoice);
 					incrementAmountDue(amountDue);
+					product.setQuantity(product.getQuantity()-1);
 				}
 				else
 				{
+					System.out.println("Adding " + product + " to waitlist!");
 					Date d = new Date();
 					product.addToWaitList(this,item.getProductQuantity(),d.toString());
 				}
 			}
 			else
 			{
-				//NOTE: product doesn't exist, what do we do?
-				//Remove line item from cart?
-				//removeFromCart(item);
+				//If product doesn't exist, do nothing.
+				//It will be removed later.
+				//NOTE: Should we inform user that it wasn't processed?
 			}
 		}
 		
+		//Clear cart now that it was processed
+		while (!cart.isEmpty())
+		{
+			cart.remove(0);
+		}
+		
 		return true;
+	}
+	
+	public Iterator getTransactions()
+	{
+		return invoiceList.iterator();
 	}
 	
 	public void incrementAmountDue(double amount)
@@ -97,7 +122,7 @@ public class Client implements Serializable
 	
 	public String toString()
 	{
-		String string="id: "+id + "\nname: "+ name;
+		String string="id: "+id + "\tname: "+ name;
 		return string; 
 	}
 }

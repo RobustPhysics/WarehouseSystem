@@ -75,7 +75,7 @@ public class Warehouse implements Serializable
 	public Client getClient(String id)
 	{
 		//return clientList.getClient(id);
-		//NOTE: Should ClientList handle searching instead?
+		//TODO: Should ClientList handle searching instead?
 		Iterator clients = getClients();
 		while (clients.hasNext())
 		{
@@ -92,7 +92,7 @@ public class Warehouse implements Serializable
 	public Product getProduct(String id)
 	{
 		//return productList.getProduct(id);
-		//NOTE: Should ProductList handle searching instead?
+		//TODO: Should ProductList handle searching instead?
 		Iterator products = getProducts();
 		while (products.hasNext())
 		{
@@ -141,7 +141,7 @@ public class Warehouse implements Serializable
 	
 	public Supplier getSupplier(String id)
 	{
-		//NOTE: Should SupplierList handle searching instead?
+		//TODO: Should SupplierList handle searching instead?
 		//return supplierList.searchSuppliers(id);
 		Iterator suppliers = getSuppliers();
 		while (suppliers.hasNext())
@@ -179,6 +179,17 @@ public class Warehouse implements Serializable
 		return r1 && r2;
 	}
 	
+	public Iterator getClientTransactions(String clientId)
+	{
+		Client client = getClient(clientId);
+		if (client == null)
+		{
+			return null;
+		}
+		
+		return client.getTransactions();
+	}
+	
 	public Iterator getClientCart(String clientId)
 	{
 		Client client = getClient(clientId);
@@ -188,6 +199,44 @@ public class Warehouse implements Serializable
 		}
 		
 		return client.getCart();
+	}
+	
+	public boolean canShipProduct(String supplierId, String productId)
+	{
+		Supplier supplier = getSupplier(supplierId);
+		//TODO: Check if product exists too? In case supplier has productId, but product
+		//doesn't actually exist
+		if (supplier != null)
+		{
+			return supplier.canShipProduct(productId);
+		}
+		
+		return false;
+	}
+	
+	public boolean shipProduct(String supplierId, String productId, int quantity)
+	{
+		Supplier supplier = getSupplier(supplierId);
+		if (supplier.canShipProduct(productId))
+		{
+			//TODO: Should supplier ship product instead of warehouse?
+			//supplier.shipProduct(productId);
+			
+			Iterator suppliedProducts = supplier.getSuppliedProducts();
+			while (suppliedProducts.hasNext())
+			{
+				SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+				Product product = sp.getProduct();
+				
+				//TODO: Should we check if sp has a product first? Or assume it does?
+				product.setQuantity(product.getQuantity() + quantity);
+				
+				//TODO: Should supplier have an invoice for products purchased?
+				//TODO: Should warehouse have a variable for total funds?
+			}
+		}
+		
+		return true;
 	}
 	
 	public boolean addToCart(String clientId, String productId, int quantity)
@@ -205,7 +254,7 @@ public class Warehouse implements Serializable
 			return false;
 		}
 		
-		//NOTE: We do not need to worry if product is out of stock
+		//TODO: We do not need to worry if product is out of stock
 		//That's only a concern for processOrder()
 		double price = product.getSalePrice();
 		LineItem item = new LineItem(product, price, quantity);
@@ -213,7 +262,7 @@ public class Warehouse implements Serializable
 		return client.addToCart(item);
 	}
 	
-	/*
+	
 	public boolean removeFromCart(String clientId, String productId)
 	{
 		Client client = clientList.getClient(clientId);
@@ -235,6 +284,9 @@ public class Warehouse implements Serializable
 			return false;
 		}
 		
+		return client.updateProductInCart(productId, newQuantity);
+		
+		/*
 		LineItem item = client.getLineItemInCart(productId);
 		if (item == null)
 		{
@@ -245,8 +297,9 @@ public class Warehouse implements Serializable
 		item.setProductQuantity(newQuantity);
 		
 		return true;
+		*/
 	}
-	*/
+	
 	
 	public boolean processOrder(String clientId)
 	{

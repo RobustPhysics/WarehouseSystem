@@ -53,6 +53,11 @@ public class Supplier implements Serializable {
     return suppliedProducts.iterator();
   }
   
+  public boolean canShipProduct(String productId)
+  {
+	  //TODO
+	  return true;
+  }
  
   public boolean assignProduct(SuppliedProduct sp)
   {

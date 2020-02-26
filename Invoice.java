@@ -36,6 +36,7 @@ public class Invoice implements Serializable {
 	
 	public String toString()
 	{
-		return "";
+		String str = date + "\t" + product + "\t" + description + "\t$" + totalCost;
+		return str;
 	}
 }

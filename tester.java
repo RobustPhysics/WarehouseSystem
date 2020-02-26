@@ -35,7 +35,7 @@ class tester
 		
 		warehouse.addProduct("Gameboy Advance",199.99,30);
 		warehouse.addProduct("Pokemon Silver",35.99,344);
-		warehouse.addProduct("Pokemon Gold",35.99,435);
+		warehouse.addProduct("Pokemon Gold",35.99,1);
 		warehouse.addProduct("Pokemon Crystal",45.99,234);
 		
 		System.out.println("EXPECTED OUTPUT");
@@ -149,6 +149,47 @@ class tester
 			{
 				LineItem item = (LineItem) cart.next();
 				System.out.println("\t" + item);
+			}
+		}
+		
+		//////////////////////////////////////////////////////
+		
+		warehouse.processOrder("C1");
+		warehouse.processOrder("C2");
+		warehouse.processOrder("C3");
+		warehouse.processOrder("C4");
+		
+		System.out.println("Expected output: ");
+		System.out.println();
+		
+		System.out.println("REAL OUTPUT");
+		
+		products = warehouse.getProducts();
+		while (products.hasNext())
+		{
+			Product product = (Product) products.next();
+			Iterator waitlist = warehouse.getProductWaitlist(product.getProductID());
+			System.out.println("The following is on the waitlist for product " + product.getProductName() + " (" + product.getProductID() + ")");
+			while (waitlist.hasNext())
+			{
+				WaitlistItem item = (WaitlistItem) waitlist.next();
+				System.out.println("\t" + item);
+			}
+		}
+		
+		//////////////////////////////////////////////////////
+		
+		clients = warehouse.getClients();
+		while (clients.hasNext())
+		{
+			Client client = (Client) clients.next();
+			Iterator invoices = client.getTransactions();
+			
+			System.out.println("Transactions for client " + client.getName() + " (" + client.getId() + "): ");
+			while (invoices.hasNext())
+			{
+				Invoice invoice = (Invoice) invoices.next();
+				System.out.println("\t" + invoice);
 			}
 		}
 	}

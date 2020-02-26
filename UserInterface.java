@@ -18,11 +18,12 @@ public class UserInterface
 		ADD_SUPPLIER("Adds supplier to system"),
 		ADD_SUPPLIED_PRODUCT("Adds supplied-product to product/supplier"),
 		ADD_TO_CART("Adds a specified product to a clients shopping cart"),
-		REMOVE_FROM_CART("Unimplemented"),
-		UPDATE_PRODUCT_IN_CART("Unimplemented"),
+		SHIP_PRODUCT("Ships a specified product from a specific supplier to the warehouse"),
+		REMOVE_FROM_CART("Removes a specified product from a specified clients shopping cart"),
+		UPDATE_PRODUCT_IN_CART("Updates the quantity of a specified product in a specified clients shopping cart"),
 		PROCESS_ORDER("When client shopping cart is full, use this to process their order"),
 		
-		SHOW_CLIENT_TRANSACTIONS("Unimplemented"),
+		SHOW_CLIENT_TRANSACTIONS("Displays a list of transactions for specified client"),
 		GET_PRODUCT_INFO("Shows information on a specified product and whom supplies it"),
 		GET_SUPPLIER_INFO("Shows a list of all products supplied by the specified supplier"),
 		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
@@ -157,17 +158,37 @@ public class UserInterface
 		System.out.println("Client: " + client);
 	}
 	
+	public void shipProduct()
+	{
+		String productId = getToken("Enter ID of product to be shipped");
+		String supplierId = getToken("Enter ID of supplier to ship product");
+		
+		//TODO: Should this be an int with error codes? i.e. 0 = can ship, 1 = product not found, 2 = supplier not found, etc
+		boolean canShip = warehouse.canShipProduct(supplierId, productId);
+		
+		if (canShip)
+		{
+			String quantityStr = getToken("How many products should be shipped to warehouse?");
+			int quantity = Integer.parseInt(quantityStr);
+			warehouse.shipProduct(supplierId, productId, quantity);
+		}
+		else
+		{
+			System.out.println("Unable to ship product " + productId + " from supplier " + supplierId + "!");
+		}
+	}
+	
 	public void addProduct()
 	{
 		String name = getToken("Enter name of product");
 		String priceStr = getToken("Enter product price");
-		String quantityStr = getToken("Enter quantity of product");
+		//String quantityStr = getToken("Enter quantity of product");
 		
 		double price = Double.parseDouble(priceStr);
-		int quantity = Integer.parseInt(quantityStr);
+		//int quantity = Integer.parseInt(quantityStr);
 		
 		Product product;
-		product = warehouse.addProduct(name, price, quantity);
+		product = warehouse.addProduct(name, price, 0);
 		if (product == null)
 		{
 			System.out.println("Error! Failed to add product to warehouse!");
@@ -192,7 +213,7 @@ public class UserInterface
 	{
 		String clientId = getToken("Enter client ID whose cart will be added to");
 		Client client = warehouse.getClient(clientId);
-		//NOTE: How to prevent UserInterface from modifying client???
+		//TODO: How to prevent UserInterface from modifying client???
 		//Maybe instead use a method that returns true if client found, or false if not?
 		if (client != null)
 		{
@@ -218,8 +239,6 @@ public class UserInterface
 	
 	public void removeFromCart()
 	{
-		System.out.println("Dummy action.");
-		/*
 		String clientId = getToken("Enter client ID whose cart will be added to");
 		Client client = warehouse.getClient(clientId);
 		
@@ -242,14 +261,11 @@ public class UserInterface
 		{
 			System.out.println("Error! Unable to find client with id " + clientId);
 		}
-		*/
 	}
 	
 	public void updateProductInCart()
 	{
-		System.out.println("Dummy action.");
-		/*
-		//NOTE: possibly remove, and simply make 'addProductToCart()' method
+		//TODO: possibly remove, and simply make 'addProductToCart()' method
 		//automatically add quantity to product if it's already in cart?
 		//otherwise, if there are multiple items with the same ID in the cart...
 		String clientId = getToken("Enter client ID whose cart will be added to");
@@ -275,7 +291,6 @@ public class UserInterface
 		{
 			System.out.println("Error! Unable to find client with id " + clientId);
 		}
-		*/
 	}
 	
 	public void processOrder()
@@ -314,15 +329,29 @@ public class UserInterface
 	
 	public void showClientTransactions()
 	{
-		System.out.println("Dummy action.");
+		String id = getToken("Enter client ID to view their transactions (invoices)");
+		Client client = warehouse.getClient(id);
+		
+		Iterator invoiceList = warehouse.getClientTransactions(id);
+		if (invoiceList == null || client == null)
+		{
+			return;
+		}
+		
+		System.out.println("Transactions for client " + client.getName() + " (" + id + "): ");
+		while (invoiceList.hasNext())
+		{
+			Invoice invoice = (Invoice) invoiceList.next();
+			System.out.println("\t" + invoice);
+		}
 	}
 	
 	public void getProductInfo()
 	{
-		//NOTE: Perhaps this should only display waitlist for product? Or waitlist AND suppliers?
+		//TODO: Perhaps this should only display waitlist for product? Or waitlist AND suppliers?
 		String id = getToken("Enter product ID to view a list of suppliers that supply this product");
 		Product product = warehouse.getProduct(id);
-		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
+		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
 		Iterator suppliedProducts = warehouse.getSuppliedProductsFromProduct(id);
 		
 		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
@@ -338,7 +367,7 @@ public class UserInterface
 	{
 		String id = getToken("Enter supplier ID to view a list of suppliers that supply this product");
 		Supplier supplier = warehouse.getSupplier(id);
-		//NOTE: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
+		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
 		Iterator suppliedProducts = warehouse.getSuppliedProductsFromSupplier(id);
 		
 		System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
@@ -379,7 +408,7 @@ public class UserInterface
 			Product p = (Product) products.next();
 			Iterator waitlist = p.getWaitlist();
 			int itemIndex = 1;
-			//NOTE: Should we get waitlist directly from product p?
+			//TODO: Should we get waitlist directly from product p?
 			//Or have warehouse get waitlist from product ID?
 			//Iterator waitlist = warehouse.getProductWaitlist(p.getProductID());
 			
@@ -514,6 +543,9 @@ public class UserInterface
 					break;
 				case SHOW_CLIENT_CART:
 					showClientCart();
+					break;
+				case SHIP_PRODUCT:
+					shipProduct();
 					break;
 				///////
 				///////

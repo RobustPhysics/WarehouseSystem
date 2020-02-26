@@ -33,7 +33,7 @@ public class WaitlistItem implements Serializable{
 	
 	
 	public String toString() {
-		return "Waitlist Item: \nClient ID: " + client.getId() + "\nQuantity: " + quantity;
+		return "Waitlist Item: \tClient ID: " + client.getId() + "\tQuantity: " + quantity;
 		
 	}
 }
