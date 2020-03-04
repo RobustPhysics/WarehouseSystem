@@ -40,7 +40,7 @@ public class ProductList implements Serializable
 		for (int i = 0; i < products.size(); i++)
 		{
 			Product p = products.get(i);
-			if (p.getProductID() == id)
+			if (p.getProductID().equals(id))
 			{
 				return p;
 			}

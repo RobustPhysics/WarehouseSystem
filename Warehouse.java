@@ -74,36 +74,17 @@ public class Warehouse implements Serializable
 	
 	public Client getClient(String id)
 	{
-		//return clientList.getClient(id);
-		//TODO: Should ClientList handle searching instead?
-		Iterator clients = getClients();
-		while (clients.hasNext())
-		{
-			Client client = (Client) clients.next();
-			if (client.getId().equals(id))
-			{
-				return client;
-			}
-		}
-		
-		return null;
+		return clientList.getClient(id);
 	}
 	
 	public Product getProduct(String id)
 	{
-		//return productList.getProduct(id);
-		//TODO: Should ProductList handle searching instead?
-		Iterator products = getProducts();
-		while (products.hasNext())
-		{
-			Product product = (Product) products.next();
-			if (product.getProductID().equals(id))
-			{
-				return product;
-			}
-		}
-		
-		return null;
+		return productList.searchProductByID(id);
+	}
+	
+	public Supplier getSupplier(String id)
+	{
+		return supplierList.searchSupplier(id);
 	}
 	
 	public Iterator getProductWaitlist(String productId)
@@ -134,23 +115,6 @@ public class Warehouse implements Serializable
 		if (supplier != null)
 		{
 			return supplier.getSuppliedProducts();
-		}
-		
-		return null;
-	}
-	
-	public Supplier getSupplier(String id)
-	{
-		//TODO: Should SupplierList handle searching instead?
-		//return supplierList.searchSuppliers(id);
-		Iterator suppliers = getSuppliers();
-		while (suppliers.hasNext())
-		{
-			Supplier supplier = (Supplier) suppliers.next();
-			if (supplier.getSupplierID().equals(id))
-			{
-				return supplier;
-			}
 		}
 		
 		return null;
