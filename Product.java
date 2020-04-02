@@ -40,7 +40,7 @@ public class Product implements Serializable
     
     public Iterator getSuppliedProducts()
     {
-  	  return suppliedProducts.iterator();
+      return suppliedProducts.iterator();
     }
     
     public String getProductID() {

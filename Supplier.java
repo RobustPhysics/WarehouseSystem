@@ -21,7 +21,7 @@ public class Supplier implements Serializable {
   
   public boolean addSuppliedProduct(SuppliedProduct sp)
   {
-	return suppliedProducts.add(sp);
+    return suppliedProducts.add(sp);
   }
   
   public void setName(String name)
@@ -55,8 +55,9 @@ public class Supplier implements Serializable {
   
   public boolean canShipProduct(String productId)
   {
-	  //TODO
-	  return true;
+    //TODO
+	suppliedProducts
+    return true;
   }
  
   public boolean assignProduct(SuppliedProduct sp)
