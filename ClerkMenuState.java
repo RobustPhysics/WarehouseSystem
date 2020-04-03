@@ -6,9 +6,8 @@ import java.io.*;
 
 public class ClerkMenuState extends WarehouseState
 {
-	private static ClerkMenuState ClerkMenuState;
-	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
+	public static ClerkMenuState instance;
 	
 	private enum Option
 	{
@@ -17,7 +16,7 @@ public class ClerkMenuState extends WarehouseState
 		// Show list of products with quantities and sale prices. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
 		SHOW_PRODUCTS("Shows products in database"),
 		// Show list of clients. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
-		SHOW_CLIENT_TRANSACTIONS("Displays a list of transactions for specified client"),
+		SHOW_CLIENTS("Show list of clients"),
 		// Show list of clients with outstanding balance. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
 		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
 		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
@@ -46,22 +45,9 @@ public class ClerkMenuState extends WarehouseState
 		}
 	}
 	
-	//Display Menu
-	public void displayHelp()
-	{
-		System.out.println("Enter a number associated with a command seen below");
-		System.out.println("---------------------");
-		Option options[] = Option.values();
-
-		for (Option opt : options)
-		{
-			System.out.println(opt.ordinal() + " - " + opt.getDescription());
-		}
-	}
-	
 	private ClerkMenuState()
 	{
-		warehouse = Warehouse.instance(); //get the facade
+		warehouse = Warehouse.getInstance(); //get the facade
 		//context = WarehouseContext.instance();
 	}
 	
@@ -72,19 +58,6 @@ public class ClerkMenuState extends WarehouseState
 			instance = new ClerkMenuState();
 		}
 		return instance;
-	}
-	
-	//Display Menu
-	public void displayHelp()
-	{
-		System.out.println("Enter a number associated with a command seen below");
-		System.out.println("---------------------");
-		ManagerOption options[] = ManagerOption.values();
-
-		for (ManagerOption opt : options)
-		{
-			System.out.println(opt.ordinal() + " - " + opt.getDescription());
-		}
 	}
 	
 	public Option getCommand()
@@ -111,6 +84,41 @@ public class ClerkMenuState extends WarehouseState
 			}
 		} while(true);
 	}
+	
+	//Display Menu
+	public void displayHelp()
+	{
+		System.out.println("Enter a number associated with a command seen below");
+		System.out.println("---------------------");
+		Option options[] = Option.values();
+
+		for (Option opt : options)
+		{
+			System.out.println(opt.ordinal() + " - " + opt.getDescription());
+		}
+	}
+	
+	public void shipProduct()
+	{
+		String productId = UserInput.getToken("Enter ID of product to be shipped");
+		String supplierId = UserInput.getToken("Enter ID of supplier to ship product");
+
+		//TODO: Should this be an int with error codes? i.e. 0 = can ship, 1 = product not found, 2 = supplier not found, etc
+		boolean canShip = warehouse.canShipProduct(supplierId, productId);
+
+		if (canShip)
+		{
+			String quantityStr = UserInput.getToken("How many products should be shipped to warehouse?");
+			int quantity = Integer.parseInt(quantityStr);
+			warehouse.shipProduct(supplierId, productId, quantity);
+		}
+		else
+		{
+			System.out.println("Unable to ship product " + productId + " from supplier " + supplierId + "!");
+		}
+	}
+	
+	
 	
 	//need to add methods for process commands
 	public void process()

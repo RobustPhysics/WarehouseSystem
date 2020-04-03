@@ -31,6 +31,11 @@ class SuppliedProduct implements Serializable
 		return purchasedPrice;
 	}
 	
+	public void setPrice(double newPrice)
+	{
+		purchasedPrice = newPrice;
+	}
+	
 	public String toString()
 	{
 		return  supplier.toString() +  "\n" + product.toString() + "\nPrice " + String.format("%.2f", purchasedPrice);

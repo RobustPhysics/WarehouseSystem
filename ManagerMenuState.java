@@ -6,8 +6,6 @@ import java.io.*;
 
 public class ManagerMenuState extends WarehouseState
 {
-	private static ManagerMenuState ManagerMenuState;
-	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 	private static ManagerMenuState instance;
 
@@ -15,7 +13,6 @@ public class ManagerMenuState extends WarehouseState
 	{
 		//Add a product
 		ADD_PRODUCT("Adds product to warehouse database"),
-		SHIP_PRODUCT("Add stock to an existing product in warehouse"),
 		//Add a supplier
 		ADD_SUPPLIER("Adds supplier to system"),
 		//Show list of suppliers
@@ -27,7 +24,7 @@ public class ManagerMenuState extends WarehouseState
 		//Add a supplier for a product. Actor provides productID, supplierID and purchase price
 		ADD_SUPPLIED_PRODUCT("Adds supplied-product to product/supplier"),
 		//Modify purchase price for a particular product from a particular supplier. Actor provides productID, supplierID and purchase price
-		MODIFY_PRODUCT("Modifies purchase price for a particular product from a particular supplier"), //TODO
+		MODIFY_SUPPLIED_PRODUCT("Modifies purchase price for a particular product from a particular supplier"), //TODO
 		//Become a salesclerk
 		BECOME_SALES_CLERK("Become a salesclerk"), //TODO
 		//HELP
@@ -48,13 +45,13 @@ public class ManagerMenuState extends WarehouseState
 			return description;
 		}
 	}
-
+	
 	private ManagerMenuState()
 	{
 		warehouse = Warehouse.getInstance(); //get the facade
 		//context = WarehouseContext.instance();
 	}
-
+	
 	public static ManagerMenuState getInstance()
 	{
 		if (instance == null)
@@ -118,26 +115,6 @@ public class ManagerMenuState extends WarehouseState
 			System.out.println("Error! Failed to add product to warehouse!");
 		}
 		System.out.println("Product: " + product);
-	}
-
-	public void shipProduct()
-	{
-		String productId = UserInput.getToken("Enter ID of product to be shipped");
-		String supplierId = UserInput.getToken("Enter ID of supplier to ship product");
-
-		//TODO: Should this be an int with error codes? i.e. 0 = can ship, 1 = product not found, 2 = supplier not found, etc
-		boolean canShip = warehouse.canShipProduct(supplierId, productId);
-
-		if (canShip)
-		{
-			String quantityStr = UserInput.getToken("How many products should be shipped to warehouse?");
-			int quantity = Integer.parseInt(quantityStr);
-			warehouse.shipProduct(supplierId, productId, quantity);
-		}
-		else
-		{
-			System.out.println("Unable to ship product " + productId + " from supplier " + supplierId + "!");
-		}
 	}
 
 	public void addSupplier()
@@ -215,10 +192,25 @@ public class ManagerMenuState extends WarehouseState
 		}
 	}
 
-	public void modifyProduct()
+	public void modifySuppliedProduct()
 	{
 		//TODO
-		System.out.println("Unimplemented");
+		String supplierId = UserInput.getToken("Enter supplier ID");
+		String productId = UserInput.getToken("Enter product ID");
+		
+		SuppliedProduct suppliedProduct = warehouse.getSuppliedProduct(supplierId, productId);
+		if (suppliedProduct != null)
+		{
+			double currentPrice = suppliedProduct.getPrice();
+			String priceStr = UserInput.getToken("Enter the new purchase price (current is " + currentPrice + ")");
+
+			double newPrice = Double.parseDouble(priceStr);
+			suppliedProduct.setPrice(newPrice);
+		}
+		else
+		{
+			System.out.println("Error! Supplier " + supplierId + " does not have product " + productId);
+		}
 	}
 
 	public void clerkMenu()
@@ -245,9 +237,6 @@ public class ManagerMenuState extends WarehouseState
 				case ADD_PRODUCT:
 					addProduct();
 					break;
-				case SHIP_PRODUCT:
-					shipProduct();
-					break;
 				case ADD_SUPPLIER:
 					addSupplier();
 					break;
@@ -263,8 +252,8 @@ public class ManagerMenuState extends WarehouseState
 				case ADD_SUPPLIED_PRODUCT:
 					addSuppliedProduct();
 					break;
-				case MODIFY_PRODUCT:
-					modifyProduct();
+				case MODIFY_SUPPLIED_PRODUCT:
+					modifySuppliedProduct();
 					break;
 				case BECOME_SALES_CLERK:
 					clerkMenu();

@@ -125,12 +125,21 @@ public class Warehouse implements Serializable
 		Supplier supplier = getSupplier(supplierId);
 		if (supplier.canShipProduct(productId))
 		{
+			SuppliedProduct sp = null;
 			Iterator suppliedProducts = supplier.getSuppliedProducts();
-			while (suppliedProducts.hasNext())
+			while (suppliedProducts.hasNext() && sp != null)
 			{
-				SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+				sp = (SuppliedProduct) suppliedProducts.next();
 				Product product = sp.getProduct();
+				
+				if (product != null && product.getProductID() != productId)
+				{
+					product = null; //reset it back to null if not the right product
+					sp = null;
+				}
 			}
+			
+			return sp;
 		}
 		
 		return null;
