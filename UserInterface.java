@@ -10,6 +10,7 @@ public class UserInterface
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 	
+	/*
 	private enum Option
 	{
 		
@@ -37,6 +38,89 @@ public class UserInterface
 		RETRIEVE("Loads data from file"),
 		HELP("Displays the help menu"),
 		EXIT("Exits the program");
+		
+		private String description;
+		private static int LENGTH = Option.values().length;
+		
+		private Option(String str)
+		{
+			description = str;
+		}
+		
+		public String getDescription()
+		{
+			return description;
+		}
+	}
+	*/
+	private enum ClientOption
+	{
+		// Show client details. The state invokes a method on Facade to get the Client object and then gets the client details. Note that the ClientID is available in the Context.
+		SHOW_CLIENT_DETAILS("Show client details."), //TODO
+		// Show list of products with sale prices. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
+		SHOW_PRODUCTS("Shows products in database"),
+		// Show client transactions. The state invokes a method on Facade to get the Client object and then gets the transaction details for the client. Note that the ClientID is available in the Context.
+		SHOW_CLIENT_TRANSACTIONS("Displays a list of transactions for specified client"),
+		// Edit client’s shopping cart. Change quantities of products in the shopping cart. Facade provides the iterator.
+		UPDATE_PRODUCT_IN_CART("Updates the quantity of a specified product in a specified clients shopping cart"),
+		// Add to client’s shopping cart. Actor provides the product id and quantity; invoke method on Facade.
+		ADD_TO_CART("Adds a specified product to a clients shopping cart"),
+		// Display client’s waitlist.
+		
+		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ClerkMenuState.)
+		
+		private String description;
+		private static int LENGTH = Option.values().length;
+		
+		private Option(String str)
+		{
+			description = str;
+		}
+		
+		public String getDescription()
+		{
+			return description;
+		}
+	}
+	
+	private enum ClerkOption
+	{
+		private String description;
+		private static int LENGTH = Option.values().length;
+		
+		private Option(String str)
+		{
+			description = str;
+		}
+		
+		public String getDescription()
+		{
+			return description;
+		}
+	}
+	
+	private enum ManagerOption
+	{
+		private String description;
+		private static int LENGTH = Option.values().length;
+		
+		private Option(String str)
+		{
+			description = str;
+		}
+		
+		public String getDescription()
+		{
+			return description;
+		}
+	}
+	
+	private enum PersonOption
+	{
+		CLIENT("Client"),
+		CLERK("Clerk"),
+		MANAGER("Manager"),
+		HELP("Displays the help menu");
 		
 		private String description;
 		private static int LENGTH = Option.values().length;
@@ -120,6 +204,7 @@ public class UserInterface
 				int value = Integer.parseInt(token);
 				if (value >= 0 && value <= Option.LENGTH)
 				{
+					System.out.println("IN THE getCommand() METHOD");
 					return Option.values()[value];
 				}
 				else
@@ -134,6 +219,33 @@ public class UserInterface
 		} while (true);
 	}
 	
+	public PersonOption getPersonCommand()
+	{
+		do
+		{
+			try
+			{
+				String token = getToken("Enter a command. Use " + PersonOption.HELP.ordinal() + " to display the menu.");
+				int value = Integer.parseInt(token);
+				if (value >= 0 && value <= PersonOption.LENGTH)
+				{
+					System.out.println("IN THE getCommand() METHOD");
+					return PersonOption.values()[value];
+				}
+				else
+				{
+					System.out.println("Input command out of range!");
+				}
+			}
+			catch (NumberFormatException nfe)
+			{
+				System.out.println("Invalid input - Please enter a valid number!");
+			}
+		} while (true);
+	}
+	
+	
+	// displays menu
 	public void displayHelp()
 	{
 		System.out.println("Enter a number associated with a command seen below");
@@ -494,15 +606,18 @@ public class UserInterface
 			e.printStackTrace();
 		}
 	}
-	
+	/*
+	Barrett Changes: nest another 3 switch statements which will determine
+	*/
 	public void process()
 	{
-		Option command;
+		PersonOption command1;
+		Option command2;
 		displayHelp();
 		do
 		{
-			command = getCommand();
-			switch (command)
+			command1 = getCommand();
+			switch (command1)
 			{
 				case ADD_CLIENT:
 					addClient();
@@ -572,7 +687,7 @@ public class UserInterface
 					displayHelp();
 					break;
 			}
-		} while (command != Option.EXIT);
+		} while (command1 != Option.EXIT);
 	}
 	
 	public static void main(String[] s)
