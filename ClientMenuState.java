@@ -195,6 +195,7 @@ public class ClientMenuState extends WarehouseState {
 	
 	public void showWaitlist()
 	{
+		//TODO
 		System.out.println("Unimplemented");
 	}
 	

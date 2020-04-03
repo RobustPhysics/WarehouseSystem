@@ -120,6 +120,22 @@ public class Warehouse implements Serializable
 		return null;
 	}
 	
+	public SuppliedProduct getSuppliedProduct(String supplierId, String productId)
+	{
+		Supplier supplier = getSupplier(supplierId);
+		if (supplier.canShipProduct(productId))
+		{
+			Iterator suppliedProducts = supplier.getSuppliedProducts();
+			while (suppliedProducts.hasNext())
+			{
+				SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+				Product product = sp.getProduct();
+			}
+		}
+		
+		return null;
+	}
+	
 	public boolean addSuppliedProduct(String productId, String supplierId, double purchasePrice)
 	{
 		Product product = getProduct(productId);
@@ -186,17 +202,27 @@ public class Warehouse implements Serializable
 			//TODO: Should supplier ship product instead of warehouse?
 			//supplier.shipProduct(productId);
 			
+			Product product = null;
+			SuppliedProduct sp = null;
 			Iterator suppliedProducts = supplier.getSuppliedProducts();
-			while (suppliedProducts.hasNext())
+			while (suppliedProducts.hasNext() && product != null && sp != null)
 			{
-				SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
-				Product product = sp.getProduct();
+				sp = (SuppliedProduct) suppliedProducts.next();
+				product = sp.getProduct();
 				
-				//TODO: Should we check if sp has a product first? Or assume it does?
-				product.setQuantity(product.getQuantity() + quantity);
+				if (product != null && product.getProductID() != productId)
+				{
+					product = null; //reset it back to null if not the right product
+					sp = null;
+				}
 				
 				//TODO: Should supplier have an invoice for products purchased?
 				//TODO: Should warehouse have a variable for total funds?
+			}
+			
+			if (product != null && sp != null)
+			{
+				product.setQuantity(product.getQuantity() + quantity);
 			}
 		}
 		

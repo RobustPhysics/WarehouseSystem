@@ -9,11 +9,13 @@ public class ManagerMenuState extends WarehouseState
 	private static ManagerMenuState ManagerMenuState;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
+	private static ManagerMenuState instance;
 
 	private enum Option
 	{
 		//Add a product
-		ADD_PRODUCT("Adds product to system"),
+		ADD_PRODUCT("Adds product to warehouse database"),
+		SHIP_PRODUCT("Add stock to an existing product in warehouse"),
 		//Add a supplier
 		ADD_SUPPLIER("Adds supplier to system"),
 		//Show list of suppliers
@@ -23,13 +25,13 @@ public class ManagerMenuState extends WarehouseState
 		//Show list of products for a supplier, with purchase prices
 		GET_SUPPLIER_INFO("Shows a list of all products supplied by the specified supplier"),
 		//Add a supplier for a product. Actor provides productID, supplierID and purchase price
-		ADD_SUPPLIER("Adds supplier to system"),
+		ADD_SUPPLIED_PRODUCT("Adds supplied-product to product/supplier"),
 		//Modify purchase price for a particular product from a particular supplier. Actor provides productID, supplierID and purchase price
-		MODIFY_PRODUCT("Modifies purchase price for a particular product from a particular supplier"); //TODO
+		MODIFY_PRODUCT("Modifies purchase price for a particular product from a particular supplier"), //TODO
 		//Become a salesclerk
-		BECOME_SALES_CLERK("Become a salesclerk"); //TODO
+		BECOME_SALES_CLERK("Become a salesclerk"), //TODO
 		//HELP
-		HELP("display the help menu")
+		HELP("display the help menu"),
 		//Logout.
 		LOGOUT("Logs out of the Manager state"); //TODO
 
@@ -49,7 +51,7 @@ public class ManagerMenuState extends WarehouseState
 	
 	private ManagerMenuState()
 	{
-		warehouse = Warehouse.instance(); //get the facade
+		warehouse = Warehouse.getInstance(); //get the facade
 		//context = WarehouseContext.instance();
 	}
 	
@@ -81,7 +83,7 @@ public class ManagerMenuState extends WarehouseState
 		{
 			try
 			{
-				String token = getToken("Enter a command. Use " + Option.HELP.ordinal() + " to display the menu.");
+				String token = UserInput.getToken("Enter a command. Use " + Option.HELP.ordinal() + " to display the menu.");
 				int value = Integer.parseInt(token);
 				if (value >= 0 && value <= Option.LENGTH)
 				{
@@ -99,6 +101,136 @@ public class ManagerMenuState extends WarehouseState
 			}
 		} while(true);
 	}
+	
+	public void addProduct()
+	{
+		String name = UserInput.getToken("Enter name of product");
+		String priceStr = UserInput.getToken("Enter product price");
+		//String quantityStr = getToken("Enter quantity of product");
+		
+		double price = Double.parseDouble(priceStr);
+		//int quantity = Integer.parseInt(quantityStr);
+		
+		Product product;
+		product = warehouse.addProduct(name, price, 0);
+		if (product == null)
+		{
+			System.out.println("Error! Failed to add product to warehouse!");
+		}
+		System.out.println("Product: " + product);
+	}
+	
+	public void shipProduct()
+	{
+		String productId = UserInput.getToken("Enter ID of product to be shipped");
+		String supplierId = UserInput.getToken("Enter ID of supplier to ship product");
+		
+		//TODO: Should this be an int with error codes? i.e. 0 = can ship, 1 = product not found, 2 = supplier not found, etc
+		boolean canShip = warehouse.canShipProduct(supplierId, productId);
+		
+		if (canShip)
+		{
+			String quantityStr = UserInput.getToken("How many products should be shipped to warehouse?");
+			int quantity = Integer.parseInt(quantityStr);
+			warehouse.shipProduct(supplierId, productId, quantity);
+		}
+		else
+		{
+			System.out.println("Unable to ship product " + productId + " from supplier " + supplierId + "!");
+		}
+	}
+	
+	public void addSupplier()
+	{
+		String name = UserInput.getToken("Enter name of supplier");
+		String address = UserInput.getToken("Enter address of supplier");
+		Supplier supplier;
+		supplier = warehouse.addSupplier(name, address);
+		if (supplier == null)
+		{
+			System.out.println("Error! Failed to add supplier to warehouse!");
+		}
+		System.out.println("Supplier: " + supplier);
+	}
+	
+	public void showSuppliers()
+	{
+		Iterator suppliers = warehouse.getSuppliers();
+		while (suppliers.hasNext())
+		{
+			Supplier supplier = (Supplier) (suppliers.next());
+			System.out.println(supplier);
+		}
+	}
+	
+	public void getProductInfo()
+	{
+		//TODO: Perhaps this should only display waitlist for product? Or waitlist AND suppliers?
+		String id = UserInput.getToken("Enter product ID to view a list of suppliers that supply this product");
+		Product product = warehouse.getProduct(id);
+		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
+		Iterator suppliedProducts = warehouse.getSuppliedProductsFromProduct(id);
+		
+		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
+		while (suppliedProducts.hasNext())
+		{
+			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+			Supplier supplier = sp.getSupplier();
+			System.out.println("\t" + supplier);
+		}
+	}
+	
+	public void getSupplierInfo()
+	{
+		String id = UserInput.getToken("Enter supplier ID to view a list of suppliers that supply this product");
+		Supplier supplier = warehouse.getSupplier(id);
+		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
+		Iterator suppliedProducts = warehouse.getSuppliedProductsFromSupplier(id);
+		
+		System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
+		while (suppliedProducts.hasNext())
+		{
+			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+			Product product = sp.getProduct();
+			System.out.println("\t" + product);
+		}
+	}
+	
+	public void addSuppliedProduct()
+	{
+		String supplierId = UserInput.getToken("Enter supplier ID");
+		String productId = UserInput.getToken("Enter product ID");
+		String priceStr = UserInput.getToken("Enter purchase price for product");
+		
+		double price = Double.parseDouble(priceStr);
+		
+		boolean result = warehouse.addSuppliedProduct(productId, supplierId, price);
+		if (result)
+		{
+			System.out.println("Supplier-Product relationship added for supplier " + supplierId + " and product " + productId);
+		}
+		else
+		{
+			System.out.println("Failed to add supplier-product relationship");
+		}
+	}
+	
+	public void modifyProduct()
+	{
+		//TODO
+		System.out.println("Unimplemented");
+	}
+	
+	public void clerkMenu()
+	{
+		//WarehouseContext.getInstance().setUserType(WarehouseContext.IsClerk);
+		WarehouseContext.getInstance().changeState(1);
+	}
+	
+	public void logout()
+	{
+		WarehouseContext.getInstance().changeState(0);
+	}
 
 	public void process()
 	{
@@ -111,48 +243,42 @@ public class ManagerMenuState extends WarehouseState
 			switch (command)
 			{
 				case ADD_PRODUCT:
-					System.out.println("Adding a product");
+					addProduct();
 					break;
-
+				case SHIP_PRODUCT:
+					shipProduct();
+					break;
 				case ADD_SUPPLIER:
-					System.out.println("Adding a supplier");
+					addSupplier();
 					break;
-
 				case SHOW_SUPPLIERS:
-					System.out.println("showing a supplier");
+					showSuppliers();
 					break;
-
 				case GET_PRODUCT_INFO:
-					System.out.println("getting product's information");
+					getProductInfo();
 					break;
-
 				case GET_SUPPLIER_INFO:
-					System.out.println("getting supplier information");
+					getSupplierInfo();
 					break;
-
-				case ADD_SUPPLIER:
-					System.out.println("Adding a supplier for a product");
+				case ADD_SUPPLIED_PRODUCT:
+					addSuppliedProduct();
 					break;
-
 				case MODIFY_PRODUCT:
-					System.out.println("modifying purchase price for a product");
+					modifyProduct();
 					break;
-
 				case BECOME_SALES_CLERK:
-					System.out.println("go from a manager to a salesclerk");
+					clerkMenu();
 					break;
-
 				case HELP:
-					System.out.println("help menu");
-					displayManagerHelp();
+					displayHelp();
 					break;
-
 				case LOGOUT:
 					System.out.println("logging out");
 					break;
 			}
 
 		} while (command != Option.LOGOUT);
+		logout();
 	}
 	
 	public void run()

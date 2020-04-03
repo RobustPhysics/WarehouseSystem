@@ -87,7 +87,7 @@ public class WarehouseContext {
 		nextState[1][0] = 3;nextState[1][1] = 0;nextState[1][2] = -2;nextState[1][3] = -2;
 		
 		//Transitions for manager
-		nextState[2][0] = 3;nextState[2][1] = 1;nextState[2][2] = -1;nextState[2][3] = -2;
+		nextState[2][0] = 3;nextState[2][1] = 2;nextState[2][2] = -2;nextState[2][3] = -2;
 		
 		//Transitions for login
 		nextState[3][0] = 0;nextState[3][1] = 1;nextState[3][2] = 2;nextState[3][3] = -1;
