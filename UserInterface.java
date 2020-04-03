@@ -129,11 +129,17 @@ public class UserInterface
 		//Show list of suppliers
 		SHOW_SUPPLIERS("Shows suppliers in database"),
 		//Show list of suppliers for a product, with purchase prices
+		GET_PRODUCT_INFO("Shows information on a specified product and whom supplies it"),
 		//Show list of products for a supplier, with purchase prices
+		GET_SUPPLIER_INFO("Shows a list of all products supplied by the specified supplier"),
 		//Add a supplier for a product. Actor provides productID, supplierID and purchase price
+		ADD_SUPPLIER("Adds supplier to system"),
 		//Modify purchase price for a particular product from a particular supplier. Actor provides productID, supplierID and purchase price
+		MODIFY_PRODUCT("Modifies purchase price for a particular product from a particular supplier"); //TODO
 		//Become a salesclerk
+		BECOME_SALES_CLERK("Become a salesclerk"); //TODO
 		//Logout.
+		LOGOUT("Logs out of the Manager state"); //TODO
 
 		private String description;
 		private static int LENGTH = Option.values().length;
