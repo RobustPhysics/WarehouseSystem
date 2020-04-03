@@ -1,3 +1,4 @@
+// ClerkMenuState.java
 
 import java.util.*;
 import java.text.*;
@@ -9,6 +10,7 @@ public class ClerkMenuState extends WarehouseState
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 		
+	
 	private enum Option
 	{
 		// Add a client. Gets details of new client; calls method on Facade.
@@ -73,6 +75,19 @@ public class ClerkMenuState extends WarehouseState
 		return instance;
 	}
 	
+	//Display Menu
+	public void displayHelp()
+	{
+		System.out.println("Enter a number associated with a command seen below");
+		System.out.println("---------------------");
+		ManagerOption options[] = ManagerOption.values();
+
+		for (ManagerOption opt : options)
+		{
+			System.out.println(opt.ordinal() + " - " + opt.getDescription());
+		}
+	}
+	
 	public Option getCommand()
 	{
 		do
@@ -124,11 +139,16 @@ public class ClerkMenuState extends WarehouseState
 				case SHOW_OUTSTANDING_CLIENTS:
 					//updateProductInCart();
 					System.out.println("recieve shipment");
+					updateProductInCart();
+					System.out.println("Product updated")
 					break;
 				//become client
+				
 				case BECOME CLIENT:
 					System.out.println("recieve shipment");
 					//becomeClient();
+					System.out.println("getting client info");
+					becomeClient();
 					break;
 				case SHOW_WAIT_LIST_PRODUCTS:
 					System.out.println("recieve shipment");
