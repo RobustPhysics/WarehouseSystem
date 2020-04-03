@@ -55,7 +55,7 @@ public class UserInterface
 	*/
 	
 	private enum ClientOption
-		{
+	{
 		// Show client details. The state invokes a method on Facade to get the Client object and then gets the client details. Note that the ClientID is available in the Context.
 		SHOW_CLIENT_DETAILS("Show client details."), //TODO
 		// Show list of products with sale prices. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
@@ -151,7 +151,8 @@ public class UserInterface
 		CLIENT("Client"),
 		CLERK("Clerk"),
 		MANAGER("Manager"),
-		HELP("Displays the help menu");
+		HELP("Displays the help menu"),
+		EXIT("Exits program");
 		
 		private String description;
 		private static int LENGTH = Option.values().length;
@@ -647,7 +648,7 @@ public class UserInterface
 		displayHelp();
 		do
 		{
-			command1 = getCommand();
+			command1 = getPersonCommand();
 			switch (command1)
 			{
 				case ADD_CLIENT:
