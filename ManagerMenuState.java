@@ -110,82 +110,53 @@ public class ManagerMenuState extends WarehouseState
 			command = getCommand();
 			switch (command)
 			{
-
-				//Add a product
 				case ADD_PRODUCT:
-				{
 					System.out.println("Adding a product");
 					break;
-				}
 
-				//Add a supplier
 				case ADD_SUPPLIER:
-				{
 					System.out.println("Adding a supplier");
 					break;
-				}
 
-				//Show list of suppliers
 				case SHOW_SUPPLIERS:
-				{
 					System.out.println("showing a supplier");
 					break;
-				}
 
-				//Show list of suppliers for a product, with purchase prices
 				case GET_PRODUCT_INFO:
-				{
 					System.out.println("getting product's information");
 					break;
-				}
 
-				//Show list of products for a supplier, with purchase prices
 				case GET_SUPPLIER_INFO:
-				{
 					System.out.println("getting supplier information");
 					break;
-				}
 
-				//Add a supplier for a product. Actor provides productID, supplierID and purchase price
 				case ADD_SUPPLIER:
-				{
 					System.out.println("Adding a supplier for a product");
 					break;
-				}
 
-				//Modify purchase price for a particular product from a particular supplier. Actor provides productID, supplierID and purchase price
 				case MODIFY_PRODUCT:
-				{
 					System.out.println("modifying purchase price for a product");
 					break;
-				}
 
-				//Become a salesclerk
 				case BECOME_SALES_CLERK:
-				{
 					System.out.println("go from a manager to a salesclerk");
 					break;
-				}
-				
-				//Become a salesclerk
+
 				case HELP:
-				{
 					System.out.println("help menu");
 					displayManagerHelp();
 					break;
-				}
 
-				//Logout.
 				case LOGOUT:
-				{
 					System.out.println("logging out");
 					break;
-				}
 			}
 
-		} while (command != ManagerOption.EXIT);
+		} while (command != Option.LOGOUT);
 	}
-
-
-
+	
+	public void run()
+	{
+		process();
+	}
 }
