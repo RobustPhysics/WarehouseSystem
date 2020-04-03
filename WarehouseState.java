@@ -1,7 +1,13 @@
-public abstract class LibState {
-  protected static LibContext context;
-  protected LibState() {
-    //context = LibContext.instance();
-  }
-  public abstract void run();
+// WarehouseState.java
+
+public abstract class WarehouseState{
+	
+	protected static WarehouseContext context;
+	
+	protected WarehouseState() 
+	{
+		//context = LibContext.instance();
+	}
+	
+	public abstract void run();
 }
