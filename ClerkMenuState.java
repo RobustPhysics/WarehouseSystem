@@ -1,3 +1,4 @@
+// ClerkMenuState.java
 
 import java.util.*;
 import java.text.*;
@@ -9,7 +10,7 @@ public class ClerkMenuState extends WarehouseState
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 		
-		private enum ClerkOption
+		private enum Option
 	{
 		// Add a client. Gets details of new client; calls method on Facade.
 		ADD_CLIENT("Adds client to system"),
@@ -44,19 +45,6 @@ public class ClerkMenuState extends WarehouseState
 		}
 	}
 	
-	//Display Menu
-	public void displayClerkHelp()
-	{
-		System.out.println("Enter a number associated with a command seen below");
-		System.out.println("---------------------");
-		ManagerOption options[] = ManagerOption.values();
-
-		for (ManagerOption opt : options)
-		{
-			System.out.println(opt.ordinal() + " - " + opt.getDescription());
-		}
-	}
-	
 	private ClerkMenuState()
 	{
 		warehouse = Warehouse.instance(); //get the facade
@@ -72,7 +60,20 @@ public class ClerkMenuState extends WarehouseState
 		return instance;
 	}
 	
-	public ClerkOption getCommand()
+	//Display Menu
+	public void displayHelp()
+	{
+		System.out.println("Enter a number associated with a command seen below");
+		System.out.println("---------------------");
+		ManagerOption options[] = ManagerOption.values();
+
+		for (ManagerOption opt : options)
+		{
+			System.out.println(opt.ordinal() + " - " + opt.getDescription());
+		}
+	}
+	
+	public Option getCommand()
 	{
 		do
 		{
@@ -99,7 +100,7 @@ public class ClerkMenuState extends WarehouseState
 	///need to add methods for process commands
 	public void process()
 	{
-		ClientOption command;
+		Option command;
 		displayHelp();
 		do
 		{
@@ -117,9 +118,11 @@ public class ClerkMenuState extends WarehouseState
 					break;
 				case SHOW_OUTSTANDING_CLIENTS:
 					updateProductInCart();
+					System.out.println("Product updated")
 					break;
 				//become client	
 				case BECOME CLIENT:
+					System.out.println("getting client info");
 					becomeClient();
 					break;
 				case SHOW_WAIT_LIST_PRODUCTS:
