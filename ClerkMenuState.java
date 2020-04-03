@@ -5,7 +5,6 @@ import java.io.*;
 
 public class ClerkMenuState extends WarehouseState
 {
-	//not sure what else needs to go in here but this is a start I guess
 	private static ClerkMenuState ClerkMenuState;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
@@ -30,8 +29,8 @@ public class ClerkMenuState extends WarehouseState
 			//TODO
 		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ManagerMenuState.)
 			//TODO
-		// private String description;
 		
+		private String description;
 		private static int LENGTH = Option.values().length;
 		
 		private Option(String str)
@@ -44,4 +43,105 @@ public class ClerkMenuState extends WarehouseState
 			return description;
 		}
 	}
+	
+	//Display Menu
+	public void displayClerkHelp()
+	{
+		System.out.println("Enter a number associated with a command seen below");
+		System.out.println("---------------------");
+		ManagerOption options[] = ManagerOption.values();
+
+		for (ManagerOption opt : options)
+		{
+			System.out.println(opt.ordinal() + " - " + opt.getDescription());
+		}
+	}
+	
+	private ClerkMenuState()
+	{
+		warehouse = Warehouse.instance(); //get the facade
+		//context = WarehouseContext.instance();
+	}
+	
+	public static ClerkMenuState getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new ClerkMenuState();
+		}
+		return instance;
+	}
+	
+	public ClerkOption getCommand()
+	{
+		do
+		{
+			try
+			{
+				String token = getToken("Enter a command. Use " + ClerkOption.HELP.ordinal() + " to display the menu.");
+				int value = Integer.parseInt(token);
+				if (value >= 0 && value <= ClerkOption.LENGTH)
+				{
+					System.out.println("IN THE getCommand() METHOD");
+					return ClerkOption.values()[value];
+				}
+				else
+				{
+					System.out.println("Input command out of range!");
+				}
+			}
+			catch (NumberFormatException nfe)
+			{
+				System.out.println("Invalid input - Please enter a valid number!");
+			}
+		} while(true);
+	}
+	///need to add methods for process commands
+	public void process()
+	{
+		ClientOption command;
+		displayHelp();
+		do
+		{
+			command = getCommand();
+			switch (command)
+			{
+				case ADD_CLIENT:
+					showClientDetails();
+					break;
+				case SHOW_PRODUCTS:
+					showProducts();
+					break;
+				case SHOW_CLIENT_TRANSACTIONS:
+					showClientTransactions();
+					break;
+				case SHOW_OUTSTANDING_CLIENTS:
+					updateProductInCart();
+					break;
+				//become client	
+				case BECOME CLIENT:
+					becomeClient();
+					break;
+				case SHOW_WAIT_LIST_PRODUCTS:
+					showWaitListProducts();
+					System.out.println("waitlist products retrieved");
+					break;
+				//record payment from client
+				case RECORD CLIENT PAYMENT:
+					recordClientPayment();
+					System.out.println("recording cleint's payment");
+					break;
+				case HELP:
+					displayHelp();
+					break;
+			}
+		} while (command != ClientOption.EXIT);
+		logout();
+	}
+	
+	public void run()
+	{
+		process();
+	}
+		
 }
