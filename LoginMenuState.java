@@ -28,7 +28,7 @@ public class LoginMenuState extends WarehouseState {
 	private LoginMenuState()
 	{
 		super();
-		//context = WarehouseContext.instance();
+		//context = WarehouseContext.getInstance();
 	}
 	
 	public static LoginMenuState getInstance()
@@ -82,9 +82,9 @@ public class LoginMenuState extends WarehouseState {
 		String userID = UserInput.getToken("Please input the client id to log into: ");
 		if (Warehouse.getInstance().getClient(userID) != null)
 		{
-			WarehouseContext wContext = WarehouseContext.instance();
-			wContext.setLogin(WarehouseContext.IsUser);
-			wContext.setUser(userID);
+			WarehouseContext wContext = WarehouseContext.getInstance();
+			wContext.setUserType(WarehouseContext.IsClient);
+			wContext.setClientId(userID);
 			wContext.changeState(0); //switching to client state
 		}
 		else
@@ -95,14 +95,14 @@ public class LoginMenuState extends WarehouseState {
 	
 	private void loginClerk()
 	{
-		(WarehouseContext.instance()).setLogin(WarehouseContext.IsClerk);
-	    (WarehouseContext.instance()).changeState(1); //switch to clerk state
+		(WarehouseContext.getInstance()).setUserType(WarehouseContext.IsClerk);
+	    (WarehouseContext.getInstance()).changeState(1); //switch to clerk state
 	}
 	
 	private void loginManager()
 	{
-		(WarehouseContext.instance()).setLogin(WarehouseContext.IsClerk);
-	    (WarehouseContext.instance()).changeState(2); //switch to manager state
+		(WarehouseContext.getInstance()).setUserType(WarehouseContext.IsManager);
+	    (WarehouseContext.getInstance()).changeState(2); //switch to manager state
 	}
 	
 	public void process()
@@ -129,7 +129,7 @@ public class LoginMenuState extends WarehouseState {
 				break;
 			}
 		} while (command != Option.EXIT);
-		(WarehouseContext.instance()).changeState(3); //switch to logging out state
+		(WarehouseContext.getInstance()).changeState(3); //switch to logging out state
 	}
 	
 	public void run()

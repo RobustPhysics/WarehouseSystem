@@ -331,7 +331,7 @@ public class Warehouse implements Serializable
 		}
 	}
 	
-	public static boolean save()
+	public boolean save()
 	{
 		try
 		{
