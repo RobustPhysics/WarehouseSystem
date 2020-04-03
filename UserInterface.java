@@ -66,8 +66,9 @@ public class UserInterface
 		// Add to client’s shopping cart. Actor provides the product id and quantity; invoke method on Facade.
 		ADD_TO_CART("Adds a specified product to a clients shopping cart"),
 		// Display client’s waitlist.
-		
+		SHOW_CLIENT_CART("Shows all line items in a specified clients cart"),
 		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ClerkMenuState.)
+		EXIT("Exits the program"); //TODO
 		
 		private String description;
 		private static int LENGTH = Option.values().length;
@@ -85,7 +86,26 @@ public class UserInterface
 	
 	private enum ClerkOption
 	{
-		private String description;
+		// Add a client. Gets details of new client; calls method on Facade.
+		ADD_CLIENT("Adds client to system"),
+		// Show list of products with quantities and sale prices. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
+		
+		// Show list of clients. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
+		
+		// Show list of clients with outstanding balance. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
+		
+		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
+		
+		// Display the waitlist for a product. The state asks the actor for productid; calls method on Façade to get an iterator.
+		
+		// Receive a shipment. The state asks the actor for productid and quantity; calls method on Façade to get an iterator. Displays each waitlisted order and performs operation requested by actor (skip or fill).
+		
+		// Record a payment from a client. State asks the actor for ID and amount; calls method on Façade to credit the amount to the client’s account.
+		
+		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ManagerMenuState.)
+		
+		// private String description;
+		
 		private static int LENGTH = Option.values().length;
 		
 		private Option(String str)
