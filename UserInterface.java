@@ -654,73 +654,248 @@ public class UserInterface
 			command1 = getPersonCommand();
 			switch (command1)
 			{
-				case ADD_CLIENT:
-					addClient();
+				case CLIENT:
+				{
+					switch (command2)
+					{
+							/* Show client details. The state invokes a method 
+							on Facade to get the Client object and then gets the
+							client details. Note that the ClientID is available 
+							in the Context. */
+							case SHOW_CLIENT_DETAILS:
+							{
+								System.out.println("showing client details");
+								break;
+							}
+							
+							/* Show list of products with sale prices. The state
+							invokes a method on Facade to get an iterator, and 
+							then extracts the needed information. */
+							case SHOW_PRODUCTS:
+							{
+								System.out.println("showing list of products with sales prices");
+								break;
+							}
+							// Show client transactions. The state invokes a method on Facade to get the Client object and then gets the transaction details for the client. Note that the ClientID is available in the Context.
+							SHOW_CLIENT_TRANSACTIONS("Displays a list of transactions for specified client"),
+							// Edit client’s shopping cart. Change quantities of products in the shopping cart. Facade provides the iterator.
+							UPDATE_PRODUCT_IN_CART("Updates the quantity of a specified product in a specified clients shopping cart"),
+							// Add to client’s shopping cart. Actor provides the product id and quantity; invoke method on Facade.
+							ADD_TO_CART("Adds a specified product to a clients shopping cart"),
+							// Display client’s waitlist.
+							SHOW_CLIENT_CART("Shows all line items in a specified clients cart"),
+							// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ClerkMenuState.)
+							EXIT("Exits the program"); //TODO
+						case ADD_CLIENT:
+							addClient();
+							break;
+						case ADD_PRODUCT:
+							addProduct();
+							break;
+						case ADD_SUPPLIER:
+							addSupplier();
+							break;
+						case ADD_SUPPLIED_PRODUCT:
+							addSuppliedProduct();
+							break;
+						case ADD_TO_CART:
+							addToCart();
+							break;
+						case PROCESS_ORDER:
+							processOrder();
+							break;
+						case GET_PRODUCT_INFO:
+							getProductInfo();
+							break;
+						case GET_SUPPLIER_INFO:
+							getSupplierInfo();
+							break;
+						case SHOW_OUTSTANDING_CLIENTS:
+							showOutstandingClients();
+							break;
+						case SHOW_WAIT_LIST_PRODUCTS:
+							showWaitlistProducts();
+							break;
+						case SHOW_CLIENT_CART:
+							showClientCart();
+							break;
+						case SHIP_PRODUCT:
+							shipProduct();
+							break;
+						case REMOVE_FROM_CART:
+							removeFromCart();
+							break;
+						case UPDATE_PRODUCT_IN_CART:
+							updateProductInCart();
+							break;
+						case SHOW_CLIENT_TRANSACTIONS:
+							showClientTransactions();
+							break;
+						case SHOW_CLIENTS:
+							showClients();
+							break;
+						case SHOW_PRODUCTS:
+							showProducts();
+							break;
+						case SHOW_SUPPLIERS:
+							showSuppliers();
+							break;
+						case SAVE:
+							save();
+							break;
+						case RETRIEVE:
+							retrieve();
+							break;
+						case HELP:
+							displayHelp();
+							break;
+					}
 					break;
-				case ADD_PRODUCT:
-					addProduct();
+				}
+				
+				case CLERK:
+				{
+					switch (command2)
+					{
+						case ADD_CLIENT:
+							addClient();
+							break;
+						case ADD_PRODUCT:
+							addProduct();
+							break;
+						case ADD_SUPPLIER:
+							addSupplier();
+							break;
+						case ADD_SUPPLIED_PRODUCT:
+							addSuppliedProduct();
+							break;
+						case ADD_TO_CART:
+							addToCart();
+							break;
+						case PROCESS_ORDER:
+							processOrder();
+							break;
+						case GET_PRODUCT_INFO:
+							getProductInfo();
+							break;
+						case GET_SUPPLIER_INFO:
+							getSupplierInfo();
+							break;
+						case SHOW_OUTSTANDING_CLIENTS:
+							showOutstandingClients();
+							break;
+						case SHOW_WAIT_LIST_PRODUCTS:
+							showWaitlistProducts();
+							break;
+						case SHOW_CLIENT_CART:
+							showClientCart();
+							break;
+						case SHIP_PRODUCT:
+							shipProduct();
+							break;
+						case REMOVE_FROM_CART:
+							removeFromCart();
+							break;
+						case UPDATE_PRODUCT_IN_CART:
+							updateProductInCart();
+							break;
+						case SHOW_CLIENT_TRANSACTIONS:
+							showClientTransactions();
+							break;
+						case SHOW_CLIENTS:
+							showClients();
+							break;
+						case SHOW_PRODUCTS:
+							showProducts();
+							break;
+						case SHOW_SUPPLIERS:
+							showSuppliers();
+							break;
+						case SAVE:
+							save();
+							break;
+						case RETRIEVE:
+							retrieve();
+							break;
+						case HELP:
+							displayHelp();
+							break;
+					}
 					break;
-				case ADD_SUPPLIER:
-					addSupplier();
+				}
+				case MANAGER:
+				{
+					switch (command2)
+					{
+						case ADD_CLIENT:
+							addClient();
+							break;
+						case ADD_PRODUCT:
+							addProduct();
+							break;
+						case ADD_SUPPLIER:
+							addSupplier();
+							break;
+						case ADD_SUPPLIED_PRODUCT:
+							addSuppliedProduct();
+							break;
+						case ADD_TO_CART:
+							addToCart();
+							break;
+						case PROCESS_ORDER:
+							processOrder();
+							break;
+						case GET_PRODUCT_INFO:
+							getProductInfo();
+							break;
+						case GET_SUPPLIER_INFO:
+							getSupplierInfo();
+							break;
+						case SHOW_OUTSTANDING_CLIENTS:
+							showOutstandingClients();
+							break;
+						case SHOW_WAIT_LIST_PRODUCTS:
+							showWaitlistProducts();
+							break;
+						case SHOW_CLIENT_CART:
+							showClientCart();
+							break;
+						case SHIP_PRODUCT:
+							shipProduct();
+							break;
+						case REMOVE_FROM_CART:
+							removeFromCart();
+							break;
+						case UPDATE_PRODUCT_IN_CART:
+							updateProductInCart();
+							break;
+						case SHOW_CLIENT_TRANSACTIONS:
+							showClientTransactions();
+							break;
+						case SHOW_CLIENTS:
+							showClients();
+							break;
+						case SHOW_PRODUCTS:
+							showProducts();
+							break;
+						case SHOW_SUPPLIERS:
+							showSuppliers();
+							break;
+						case SAVE:
+							save();
+							break;
+						case RETRIEVE:
+							retrieve();
+							break;
+						case HELP:
+							displayHelp();
+							break;
+					}
 					break;
-				case ADD_SUPPLIED_PRODUCT:
-					addSuppliedProduct();
-					break;
-				case ADD_TO_CART:
-					addToCart();
-					break;
-				case PROCESS_ORDER:
-					processOrder();
-					break;
-				case GET_PRODUCT_INFO:
-					getProductInfo();
-					break;
-				case GET_SUPPLIER_INFO:
-					getSupplierInfo();
-					break;
-				case SHOW_OUTSTANDING_CLIENTS:
-					showOutstandingClients();
-					break;
-				case SHOW_WAIT_LIST_PRODUCTS:
-					showWaitlistProducts();
-					break;
-				case SHOW_CLIENT_CART:
-					showClientCart();
-					break;
-				case SHIP_PRODUCT:
-					shipProduct();
-					break;
-				///////
-				///////
-				case REMOVE_FROM_CART:
-					removeFromCart();
-					break;
-				case UPDATE_PRODUCT_IN_CART:
-					updateProductInCart();
-					break;
-				case SHOW_CLIENT_TRANSACTIONS:
-					showClientTransactions();
-					break;
-				///////
-				///////
-				case SHOW_CLIENTS:
-					showClients();
-					break;
-				case SHOW_PRODUCTS:
-					showProducts();
-					break;
-				case SHOW_SUPPLIERS:
-					showSuppliers();
-					break;
-				case SAVE:
-					save();
-					break;
-				case RETRIEVE:
-					retrieve();
-					break;
-				case HELP:
-					displayHelp();
-					break;
+				}
+			}
+				
+				
 			}
 		} while (command1 != Option.EXIT);
 	}
