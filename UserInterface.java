@@ -96,15 +96,15 @@ public class UserInterface
 		// Show list of clients with outstanding balance. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
 		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
 		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
-		
+			//TODO
 		// Display the waitlist for a product. The state asks the actor for productid; calls method on Façade to get an iterator.
 		SHOW_WAIT_LIST_PRODUCTS("Shows a list of every product and the waitlists for that product."),
 		// Receive a shipment. The state asks the actor for productid and quantity; calls method on Façade to get an iterator. Displays each waitlisted order and performs operation requested by actor (skip or fill).
-		
+			//TODO
 		// Record a payment from a client. State asks the actor for ID and amount; calls method on Façade to credit the amount to the client’s account.
-		
+			//TODO
 		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ManagerMenuState.)
-		
+			//TODO
 		// private String description;
 		
 		private static int LENGTH = Option.values().length;
