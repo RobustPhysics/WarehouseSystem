@@ -35,8 +35,8 @@ public class ClientMenuState extends WarehouseState {
 	
 	private ClientMenuState()
 	{
-		warehouse = Warehouse.instance(); //get the facade
-		//context = WarehouseContext.instance();
+		warehouse = Warehouse.getInstance(); //get the facade
+		//context = WarehouseContext.getInstance();
 	}
 	
 	public static ClientMenuState getInstance()
@@ -87,7 +87,7 @@ public class ClientMenuState extends WarehouseState {
 	
 	public void showClientDetails()
 	{
-		String clientId = WarehouseContext.instance().getUser();
+		String clientId = WarehouseContext.getInstance().getClientId();
 		Client client = warehouse.getClient(clientId);
 		
 		System.out.println(client);
@@ -105,7 +105,7 @@ public class ClientMenuState extends WarehouseState {
 	
 	public void showClientTransactions()
 	{
-		String clientId = WarehouseContext.instance().getUser();
+		String clientId = WarehouseContext.getInstance().getClientId();
 		Client client = warehouse.getClient(clientId);
 		
 		Iterator invoiceList = warehouse.getClientTransactions(clientId);
@@ -127,7 +127,7 @@ public class ClientMenuState extends WarehouseState {
 		//TODO: possibly remove, and simply make 'addProductToCart()' method
 		//automatically add quantity to product if it's already in cart?
 		//otherwise, if there are multiple items with the same ID in the cart...
-		String clientId = WarehouseContext.instance().getUser();
+		String clientId = WarehouseContext.getInstance().getClientId();
 		Client client = warehouse.getClient(clientId);
 		
 		if (client != null)
@@ -154,7 +154,7 @@ public class ClientMenuState extends WarehouseState {
 	
 	public void addToCart()
 	{
-		String clientId = WarehouseContext.instance().getUser();
+		String clientId = WarehouseContext.getInstance().getClientId();
 		Client client = warehouse.getClient(clientId);
 		//TODO: How to prevent UserInterface from modifying client???
 		//Maybe instead use a method that returns true if client found, or false if not?
@@ -182,7 +182,7 @@ public class ClientMenuState extends WarehouseState {
 	
 	public void showClientCart()
 	{
-		String clientId = WarehouseContext.instance().getUser();
+		String clientId = WarehouseContext.getInstance().getClientId();
 		
 		Iterator cart = warehouse.getClientCart(clientId);
 		System.out.println("Cart for client " + clientId);
@@ -200,20 +200,20 @@ public class ClientMenuState extends WarehouseState {
 	
 	public void logout()
 	{
-		int wLogin = WarehouseContext.instance().getLogin();
-		if (login == WarehouseContext.IsClerk)
+		int wLogin = WarehouseContext.getInstance().getUserType();
+		if (wLogin == WarehouseContext.IsClerk)
 		{
-			WarehouseContext.instance().changeState(0); //switch to clerk state
+			WarehouseContext.getInstance().changeState(1); //switch to clerk state
 		}
-		else if (login == WarehouseContext.IsClient)
+		else if (wLogin == WarehouseContext.IsClient)
 		{
-			WarehouseContext.instance().changeState(0); //switch to login state
+			WarehouseContext.getInstance().changeState(0); //switch to login state
 		}
 		else
 		{
 			//note this could occur as an error if manager somehow entered client
 			//without going through clerk first
-			WarehouseContext.instance().changeState(2); //switch to error state
+			WarehouseContext.getInstance().changeState(3); //switch to error state
 		}
 	}
 	
