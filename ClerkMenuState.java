@@ -138,17 +138,14 @@ public class ClerkMenuState extends WarehouseState
 				case SHOW_OUTSTANDING_CLIENTS:
 					//updateProductInCart();
 					System.out.println("recieve shipment");
-					updateProductInCart();
-					System.out.println("Product updated")
 					break;
-				//become client
 				
-				case BECOME CLIENT:
-					System.out.println("recieve shipment");
+				//become client
+				case BECOME_CLIENT:
+					System.out.println("become client");
 					//becomeClient();
-					System.out.println("getting client info");
-					becomeClient();
 					break;
+					
 				case SHOW_WAIT_LIST_PRODUCTS:
 					System.out.println("recieve shipment");
 					//showWaitListProducts();
@@ -165,7 +162,8 @@ public class ClerkMenuState extends WarehouseState
 				case HELP:
 					displayHelp();
 					break;
-				case LGOUT
+				case LOGOUT:
+					break;
 			}
 		} while (command != Option.EXIT);
 		logout();
