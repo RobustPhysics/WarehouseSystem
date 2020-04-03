@@ -9,7 +9,6 @@ public class ClerkMenuState extends WarehouseState
 	private static ClerkMenuState ClerkMenuState;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
-		
 	
 	private enum Option
 	{
