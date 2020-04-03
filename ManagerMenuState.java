@@ -10,7 +10,7 @@ public class ManagerMenuState extends WarehouseState
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 
-	private enum ManagerOption
+	private enum Option
 	{
 		//Add a product
 		ADD_PRODUCT("Adds product to system"),
@@ -34,9 +34,9 @@ public class ManagerMenuState extends WarehouseState
 		LOGOUT("Logs out of the Manager state"); //TODO
 
 		private String description;
-		private static int LENGTH = ManagerOption.values().length;
+		private static int LENGTH = Option.values().length;
 
-		private ManagerOption(String str)
+		private Option(String str)
 		{
 			description = str;
 		}
@@ -46,32 +46,47 @@ public class ManagerMenuState extends WarehouseState
 			return description;
 		}
 	}
-
+	
+	private ManagerMenuState()
+	{
+		warehouse = Warehouse.instance(); //get the facade
+		//context = WarehouseContext.instance();
+	}
+	
+	public static ManagerMenuState getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new ManagerMenuState();
+		}
+		return instance;
+	}
+	
 	// displays menu
-	public void displayManagerHelp()
+	public void displayHelp()
 	{
 		System.out.println("Enter a number associated with a command seen below");
 		System.out.println("---------------------");
-		ManagerOption options[] = ManagerOption.values();
+		Option options[] = Option.values();
 
-		for (ManagerOption opt : options)
+		for (Option opt : options)
 		{
 			System.out.println(opt.ordinal() + " - " + opt.getDescription());
 		}
 	}
 
-	public ManagerOption getCommand()
+	public Option getCommand()
 	{
 		do
 		{
 			try
 			{
-				String token = getToken("Enter a command. Use " + ManagerOption.HELP.ordinal() + " to display the menu.");
+				String token = getToken("Enter a command. Use " + Option.HELP.ordinal() + " to display the menu.");
 				int value = Integer.parseInt(token);
-				if (value >= 0 && value <= ManagerOption.LENGTH)
+				if (value >= 0 && value <= Option.LENGTH)
 				{
 					System.out.println("IN THE getCommand() METHOD");
-					return ManagerOption.values()[value];
+					return Option.values()[value];
 				}
 				else
 				{
@@ -87,90 +102,61 @@ public class ManagerMenuState extends WarehouseState
 
 	public void process()
 	{
-		ManagerOption command;
-		displayManagerHelp();
+		Option command;
+		displayHelp();
 
 		do
 		{
 			command = getCommand();
 			switch (command)
 			{
-
-				//Add a product
 				case ADD_PRODUCT:
-				{
 					System.out.println("Adding a product");
 					break;
-				}
 
-				//Add a supplier
 				case ADD_SUPPLIER:
-				{
 					System.out.println("Adding a supplier");
 					break;
-				}
 
-				//Show list of suppliers
 				case SHOW_SUPPLIERS:
-				{
 					System.out.println("showing a supplier");
 					break;
-				}
 
-				//Show list of suppliers for a product, with purchase prices
 				case GET_PRODUCT_INFO:
-				{
 					System.out.println("getting product's information");
 					break;
-				}
 
-				//Show list of products for a supplier, with purchase prices
 				case GET_SUPPLIER_INFO:
-				{
 					System.out.println("getting supplier information");
 					break;
-				}
 
-				//Add a supplier for a product. Actor provides productID, supplierID and purchase price
 				case ADD_SUPPLIER:
-				{
 					System.out.println("Adding a supplier for a product");
 					break;
-				}
 
-				//Modify purchase price for a particular product from a particular supplier. Actor provides productID, supplierID and purchase price
 				case MODIFY_PRODUCT:
-				{
 					System.out.println("modifying purchase price for a product");
 					break;
-				}
 
-				//Become a salesclerk
 				case BECOME_SALES_CLERK:
-				{
 					System.out.println("go from a manager to a salesclerk");
 					break;
-				}
-				
-				//Become a salesclerk
+
 				case HELP:
-				{
 					System.out.println("help menu");
 					displayManagerHelp();
 					break;
-				}
 
-				//Logout.
 				case LOGOUT:
-				{
 					System.out.println("logging out");
 					break;
-				}
 			}
 
-		} while (command != ManagerOption.EXIT);
+		} while (command != Option.LOGOUT);
 	}
-
-
-
+	
+	public void run()
+	{
+		process();
+	}
 }
