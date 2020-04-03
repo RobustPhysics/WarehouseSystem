@@ -25,11 +25,12 @@ public class ManagerMenuState extends WarehouseState
 		//Add a supplier for a product. Actor provides productID, supplierID and purchase price
 		ADD_SUPPLIER("Adds supplier to system"),
 		//Modify purchase price for a particular product from a particular supplier. Actor provides productID, supplierID and purchase price
-		MODIFY_PRODUCT("Modifies purchase price for a particular product from a particular supplier"); //TODO
+		MODIFY_PRODUCT("Modifies purchase price for a particular product from a particular supplier"), //TODO
 		//Become a salesclerk
-		BECOME_SALES_CLERK("Become a salesclerk"); //TODO
+		BECOME_SALES_CLERK("Become a salesclerk"),
+		//TODO
 		//HELP
-		HELP("display the help menu")
+		HELP("display the help menu"),
 		//Logout.
 		LOGOUT("Logs out of the Manager state"); //TODO
 
