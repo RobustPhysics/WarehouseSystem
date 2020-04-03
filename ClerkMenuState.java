@@ -1,3 +1,4 @@
+// ClerkMenuState.java
 
 import java.util.*;
 import java.text.*;
@@ -8,8 +9,8 @@ public class ClerkMenuState extends WarehouseState
 	private static ClerkMenuState ClerkMenuState;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
-		
-		private enum ClerkOption
+	
+	private enum Option
 	{
 		// Add a client. Gets details of new client; calls method on Facade.
 		ADD_CLIENT("Adds client to system"),
@@ -20,15 +21,16 @@ public class ClerkMenuState extends WarehouseState
 		// Show list of clients with outstanding balance. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
 		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
 		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
-			//TODO
+		BECOME_CLIENT("become a client"), //TODO
 		// Display the waitlist for a product. The state asks the actor for productid; calls method on Façade to get an iterator.
 		SHOW_WAIT_LIST_PRODUCTS("Shows a list of every product and the waitlists for that product."),
 		// Receive a shipment. The state asks the actor for productid and quantity; calls method on Façade to get an iterator. Displays each waitlisted order and performs operation requested by actor (skip or fill).
-			//TODO
+		RECIEVE_SHIPMENT("recieve a shipment"), //TODO
 		// Record a payment from a client. State asks the actor for ID and amount; calls method on Façade to credit the amount to the client’s account.
-			//TODO
+		RECORD_PAYMENT("record payment from a cluient"), //TODO
+		HELP("display the help menu"),
 		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ManagerMenuState.)
-			//TODO
+		LOGOUT("logout"); //TODO
 		
 		private String description;
 		private static int LENGTH = Option.values().length;
@@ -45,13 +47,13 @@ public class ClerkMenuState extends WarehouseState
 	}
 	
 	//Display Menu
-	public void displayClerkHelp()
+	public void displayHelp()
 	{
 		System.out.println("Enter a number associated with a command seen below");
 		System.out.println("---------------------");
-		ManagerOption options[] = ManagerOption.values();
+		Option options[] = Option.values();
 
-		for (ManagerOption opt : options)
+		for (Option opt : options)
 		{
 			System.out.println(opt.ordinal() + " - " + opt.getDescription());
 		}
@@ -72,18 +74,31 @@ public class ClerkMenuState extends WarehouseState
 		return instance;
 	}
 	
-	public ClerkOption getCommand()
+	//Display Menu
+	public void displayHelp()
+	{
+		System.out.println("Enter a number associated with a command seen below");
+		System.out.println("---------------------");
+		ManagerOption options[] = ManagerOption.values();
+
+		for (ManagerOption opt : options)
+		{
+			System.out.println(opt.ordinal() + " - " + opt.getDescription());
+		}
+	}
+	
+	public Option getCommand()
 	{
 		do
 		{
 			try
 			{
-				String token = getToken("Enter a command. Use " + ClerkOption.HELP.ordinal() + " to display the menu.");
+				String token = getToken("Enter a command. Use " + Option.HELP.ordinal() + " to display the menu.");
 				int value = Integer.parseInt(token);
-				if (value >= 0 && value <= ClerkOption.LENGTH)
+				if (value >= 0 && value <= Option.LENGTH)
 				{
 					System.out.println("IN THE getCommand() METHOD");
-					return ClerkOption.values()[value];
+					return Option.values()[value];
 				}
 				else
 				{
@@ -96,46 +111,63 @@ public class ClerkMenuState extends WarehouseState
 			}
 		} while(true);
 	}
-	///need to add methods for process commands
+	
+	//need to add methods for process commands
 	public void process()
 	{
-		ClientOption command;
+		Option command;
 		displayHelp();
+		
 		do
 		{
 			command = getCommand();
 			switch (command)
 			{
 				case ADD_CLIENT:
-					showClientDetails();
+					//showClientDetails();
+					System.out.println("add client");
 					break;
 				case SHOW_PRODUCTS:
-					showProducts();
+					//showProducts();
+					System.out.println("show products");
 					break;
 				case SHOW_CLIENT_TRANSACTIONS:
-					showClientTransactions();
+					//showClientTransactions();
+					System.out.println("show cliebnt transactions");
 					break;
 				case SHOW_OUTSTANDING_CLIENTS:
+					//updateProductInCart();
+					System.out.println("recieve shipment");
 					updateProductInCart();
+					System.out.println("Product updated")
 					break;
-				//become client	
+				//become client
+				
 				case BECOME CLIENT:
+					System.out.println("recieve shipment");
+					//becomeClient();
+					System.out.println("getting client info");
 					becomeClient();
 					break;
 				case SHOW_WAIT_LIST_PRODUCTS:
-					showWaitListProducts();
+					System.out.println("recieve shipment");
+					//showWaitListProducts();
 					System.out.println("waitlist products retrieved");
 					break;
 				//record payment from client
-				case RECORD CLIENT PAYMENT:
-					recordClientPayment();
+				case RECIEVE_SHIPMENT:
+					System.out.println("recieve shipment");
+					break;
+				case RECORD_CLIENT_PAYMENT:
+					//recordClientPayment();
 					System.out.println("recording cleint's payment");
 					break;
 				case HELP:
 					displayHelp();
 					break;
+				case LGOUT
 			}
-		} while (command != ClientOption.EXIT);
+		} while (command != Option.EXIT);
 		logout();
 	}
 	

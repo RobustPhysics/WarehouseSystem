@@ -48,13 +48,13 @@ public class ManagerMenuState extends WarehouseState
 			return description;
 		}
 	}
-	
+
 	private ManagerMenuState()
 	{
 		warehouse = Warehouse.getInstance(); //get the facade
 		//context = WarehouseContext.instance();
 	}
-	
+
 	public static ManagerMenuState getInstance()
 	{
 		if (instance == null)
@@ -63,7 +63,7 @@ public class ManagerMenuState extends WarehouseState
 		}
 		return instance;
 	}
-	
+
 	// displays menu
 	public void displayHelp()
 	{
@@ -101,16 +101,16 @@ public class ManagerMenuState extends WarehouseState
 			}
 		} while(true);
 	}
-	
+
 	public void addProduct()
 	{
 		String name = UserInput.getToken("Enter name of product");
 		String priceStr = UserInput.getToken("Enter product price");
 		//String quantityStr = getToken("Enter quantity of product");
-		
+
 		double price = Double.parseDouble(priceStr);
 		//int quantity = Integer.parseInt(quantityStr);
-		
+
 		Product product;
 		product = warehouse.addProduct(name, price, 0);
 		if (product == null)
@@ -119,15 +119,15 @@ public class ManagerMenuState extends WarehouseState
 		}
 		System.out.println("Product: " + product);
 	}
-	
+
 	public void shipProduct()
 	{
 		String productId = UserInput.getToken("Enter ID of product to be shipped");
 		String supplierId = UserInput.getToken("Enter ID of supplier to ship product");
-		
+
 		//TODO: Should this be an int with error codes? i.e. 0 = can ship, 1 = product not found, 2 = supplier not found, etc
 		boolean canShip = warehouse.canShipProduct(supplierId, productId);
-		
+
 		if (canShip)
 		{
 			String quantityStr = UserInput.getToken("How many products should be shipped to warehouse?");
@@ -139,7 +139,7 @@ public class ManagerMenuState extends WarehouseState
 			System.out.println("Unable to ship product " + productId + " from supplier " + supplierId + "!");
 		}
 	}
-	
+
 	public void addSupplier()
 	{
 		String name = UserInput.getToken("Enter name of supplier");
@@ -152,7 +152,7 @@ public class ManagerMenuState extends WarehouseState
 		}
 		System.out.println("Supplier: " + supplier);
 	}
-	
+
 	public void showSuppliers()
 	{
 		Iterator suppliers = warehouse.getSuppliers();
@@ -162,7 +162,7 @@ public class ManagerMenuState extends WarehouseState
 			System.out.println(supplier);
 		}
 	}
-	
+
 	public void getProductInfo()
 	{
 		//TODO: Perhaps this should only display waitlist for product? Or waitlist AND suppliers?
@@ -170,7 +170,7 @@ public class ManagerMenuState extends WarehouseState
 		Product product = warehouse.getProduct(id);
 		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the product itself?
 		Iterator suppliedProducts = warehouse.getSuppliedProductsFromProduct(id);
-		
+
 		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
 		while (suppliedProducts.hasNext())
 		{
@@ -179,14 +179,14 @@ public class ManagerMenuState extends WarehouseState
 			System.out.println("\t" + supplier);
 		}
 	}
-	
+
 	public void getSupplierInfo()
 	{
 		String id = UserInput.getToken("Enter supplier ID to view a list of suppliers that supply this product");
 		Supplier supplier = warehouse.getSupplier(id);
 		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
 		Iterator suppliedProducts = warehouse.getSuppliedProductsFromSupplier(id);
-		
+
 		System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
 		while (suppliedProducts.hasNext())
 		{
@@ -195,15 +195,15 @@ public class ManagerMenuState extends WarehouseState
 			System.out.println("\t" + product);
 		}
 	}
-	
+
 	public void addSuppliedProduct()
 	{
 		String supplierId = UserInput.getToken("Enter supplier ID");
 		String productId = UserInput.getToken("Enter product ID");
 		String priceStr = UserInput.getToken("Enter purchase price for product");
-		
+
 		double price = Double.parseDouble(priceStr);
-		
+
 		boolean result = warehouse.addSuppliedProduct(productId, supplierId, price);
 		if (result)
 		{
@@ -214,19 +214,19 @@ public class ManagerMenuState extends WarehouseState
 			System.out.println("Failed to add supplier-product relationship");
 		}
 	}
-	
+
 	public void modifyProduct()
 	{
 		//TODO
 		System.out.println("Unimplemented");
 	}
-	
+
 	public void clerkMenu()
 	{
 		//WarehouseContext.getInstance().setUserType(WarehouseContext.IsClerk);
 		WarehouseContext.getInstance().changeState(1);
 	}
-	
+
 	public void logout()
 	{
 		WarehouseContext.getInstance().changeState(0);
@@ -280,7 +280,7 @@ public class ManagerMenuState extends WarehouseState
 		} while (command != Option.LOGOUT);
 		logout();
 	}
-	
+
 	public void run()
 	{
 		process();
