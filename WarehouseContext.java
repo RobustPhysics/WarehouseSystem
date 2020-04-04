@@ -73,7 +73,7 @@ public class WarehouseContext {
 			warehouse = Warehouse.getInstance();
 		}
 		// set up the FSM and transition table;
-		states = new WarehouseState[3];
+		states = new WarehouseState[4];
 		states[0] = ClientMenuState.getInstance(); 
 		states[1] = ClerkMenuState.getInstance();
 		states[2] = ManagerMenuState.getInstance();
