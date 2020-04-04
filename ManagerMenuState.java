@@ -163,13 +163,15 @@ public class ManagerMenuState extends WarehouseState
 		Supplier supplier = warehouse.getSupplier(id);
 		//TODO: Perhaps a warehouse method to get an Iterator for each SuppliedProduct instead of the supplier itself?
 		Iterator suppliedProducts = warehouse.getSuppliedProductsFromSupplier(id);
-
-		System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
-		while (suppliedProducts.hasNext())
+		if (supplier != null)
 		{
-			SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
-			Product product = sp.getProduct();
-			System.out.println("\t" + product);
+			System.out.println("Supplier " + supplier.getName() + " (" + id + ") supplies...");
+			while (suppliedProducts.hasNext())
+			{
+				SuppliedProduct sp = (SuppliedProduct) suppliedProducts.next();
+				Product product = sp.getProduct();
+				System.out.println("\t" + product);
+			}
 		}
 	}
 
