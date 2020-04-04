@@ -55,15 +55,13 @@ public class Supplier implements Serializable {
 	
 	public boolean canShipProduct(String productId)
 	{
-		//TODO
 		Product product = null;
 		Iterator suppliesIterator = suppliedProducts.iterator();
-
 		while (suppliesIterator.hasNext())
 		{
 			SuppliedProduct sp = (SuppliedProduct)(suppliesIterator.next());
 			Product p = sp.getProduct();
-			if (p != null && p.getProductID() == productId)
+			if (p != null && p.getProductID().equals(productId))
 			{
 				product = p;
 			}

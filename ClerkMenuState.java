@@ -71,7 +71,6 @@ public class ClerkMenuState extends WarehouseState
 				int value = Integer.parseInt(token);
 				if (value >= 0 && value <= Option.LENGTH)
 				{
-					System.out.println("IN THE getCommand() METHOD");
 					return Option.values()[value];
 				}
 				else
@@ -136,6 +135,10 @@ public class ClerkMenuState extends WarehouseState
 		Iterator outstandingClients = warehouse.getOutstandingClients();
 		
 		System.out.println("The following clients have an outstanding balance.");
+		if (!outstandingClients.hasNext())
+		{
+			System.out.println("\tNone");
+		}
 		while (outstandingClients.hasNext())
 		{
 			Client client = (Client) outstandingClients.next();
@@ -146,15 +149,18 @@ public class ClerkMenuState extends WarehouseState
 	
 	public void showProductWaitlist()
 	{
-		String id = UserInput.getToken("Enter product ID to view a list of suppliers that supply this product");
+		String id = UserInput.getToken("Enter the product ID whose waitlist will be shown");
 		Product product = warehouse.getProduct(id);
 		Iterator waitlist = warehouse.getProductWaitlist(id);
 		
-		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
-		while (waitlist.hasNext())
+		if (product != null)
 		{
-			WaitlistItem item = (WaitlistItem) waitlist.next();
-			System.out.println("\t" + item);
+			System.out.println("Waitlist for product " + product.getProductName() + " (" + id + ") is...");
+			while (waitlist.hasNext())
+			{
+				WaitlistItem item = (WaitlistItem) waitlist.next();
+				System.out.println("\t" + item);
+			}
 		}
 	}
 	

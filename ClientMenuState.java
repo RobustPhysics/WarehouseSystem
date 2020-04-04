@@ -13,6 +13,7 @@ public class ClientMenuState extends WarehouseState {
 		SHOW_CLIENT_TRANSACTIONS("Displays a list of transactions for specified client"),
 		UPDATE_PRODUCT_IN_CART("Updates the quantity of a specified product in a specified clients shopping cart"),
 		ADD_TO_CART("Adds a specified product to a clients shopping cart"),
+		PROCESS_ORDER("Processes an order for all items currently in shopping cart."),
 		SHOW_CLIENT_CART("Shows all line items in the shopping cart"),
 		SHOW_CLIENT_WAITLIST("Shows all items on the waitlist"),
 		HELP("Displays the help menu"),
@@ -58,7 +59,6 @@ public class ClientMenuState extends WarehouseState {
 				int value = Integer.parseInt(token);
 				if (value >= 0 && value <= Option.LENGTH)
 				{
-					System.out.println("IN THE getCommand() METHOD");
 					return Option.values()[value];
 				}
 				else
@@ -180,6 +180,21 @@ public class ClientMenuState extends WarehouseState {
 		}
 	}
 	
+	public void processOrder()
+	{
+		String clientId = WarehouseContext.getInstance().getClientId();
+		
+		boolean result = warehouse.processOrder(clientId);
+		if (result)
+		{
+			System.out.println("Order processed successfully!");
+		}
+		else
+		{
+			System.out.println("Failed to process client order!");
+		}
+	}
+	
 	public void showClientCart()
 	{
 		String clientId = WarehouseContext.getInstance().getClientId();
@@ -243,6 +258,9 @@ public class ClientMenuState extends WarehouseState {
 					break;
 				case ADD_TO_CART:
 					addToCart();
+					break;
+				case PROCESS_ORDER:
+					processOrder();
 					break;
 				case SHOW_CLIENT_CART:
 					showClientCart();

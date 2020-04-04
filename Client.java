@@ -44,6 +44,38 @@ public class Client implements Serializable
 		return amountDue;
 	}
 	
+	public boolean processItem(LineItem item)
+	{
+		Product product = item.getProduct();
+		if (product != null)
+		{
+			if (product.getQuantity() >= item.getProductQuantity())
+			{
+				double amountDue = item.getProductPrice() * item.getProductQuantity();
+				Date d = new Date();
+				String desc="Bought "+item.getProductQuantity()+ " of " +product.getProductName();
+				Invoice invoice=new Invoice(d.toString(), product, desc, amountDue);
+				invoiceList.add(invoice);
+				incrementAmountDue(amountDue);
+				product.setQuantity(product.getQuantity()-1);
+			}
+			else
+			{
+				System.out.println("Adding " + product + " to waitlist!");
+				Date d = new Date();
+				product.addToWaitList(this,item.getProductPrice(), item.getProductQuantity(),d.toString());
+			}
+		}
+		else
+		{
+			//If product doesn't exist, do nothing.
+			//It will be removed later.
+			//TODO: Should we inform user that it wasn't processed?
+		}
+		
+		return true;
+	}
+	
 	public boolean processOrder()
 	{
 		//TODO: Sequence diagram should show the client object processing the order, not warehouse
@@ -69,13 +101,13 @@ public class Client implements Serializable
 					Invoice invoice=new Invoice(d.toString(), product, desc, amountDue);
 					invoiceList.add(invoice);
 					incrementAmountDue(amountDue);
-					product.setQuantity(product.getQuantity()-1);
+					product.setQuantity(product.getQuantity()-item.getProductQuantity());
 				}
 				else
 				{
 					System.out.println("Adding " + product + " to waitlist!");
 					Date d = new Date();
-					product.addToWaitList(this,item.getProductQuantity(),d.toString());
+					product.addToWaitList(this,item.getProductPrice(), item.getProductQuantity(),d.toString());
 				}
 			}
 			else

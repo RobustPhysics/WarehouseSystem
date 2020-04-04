@@ -11,12 +11,12 @@ public class WaitlistItem implements Serializable{
 	private double price;
 	private String date;      // Date added to the list
 	
-	public WaitlistItem(Client client, int quantity, String date)
+	public WaitlistItem(Client client, double price,  int quantity, String date)
 	{
 		this.client = client;
 		this.quantity = quantity;
 		this.date = date;
-		
+		this.price = price;
 	}
 	
 	public Client getClient(){
@@ -31,6 +31,10 @@ public class WaitlistItem implements Serializable{
 		return date;
 	}
 	
+	public double getPrice()
+	{
+		return price;
+	}
 	
 	public String toString() {
 		return "Waitlist Item: \tClient ID: " + client.getId() + "\tQuantity: " + quantity;

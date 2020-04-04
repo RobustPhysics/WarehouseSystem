@@ -22,10 +22,42 @@ public class Product implements Serializable
         productQuantity = 0;
     }
     
-    public boolean addToWaitList(Client client, int quantity, String date)
+    public boolean addToWaitList(Client client, double price, int quantity, String date)
     {
-        WaitlistItem item = new WaitlistItem(client, quantity, date);
+        WaitlistItem item = new WaitlistItem(client, price, quantity, date);
     	return waitlist.add(item);
+    }
+    
+    public boolean removeFromWaitlist(WaitlistItem item)
+    {
+    	return waitlist.remove(item);
+    }
+    
+    public void processWaitlist()
+    {
+    	List<WaitlistItem> itemsToRemove = new LinkedList<WaitlistItem>();
+    	for (WaitlistItem item : waitlist)
+    	{
+    		if (productQuantity >= item.getQuantity())
+    		{
+    			LineItem item2 = new LineItem(this, item.getPrice(), item.getQuantity());
+    			Client client = item.getClient();
+    			boolean success = client.processItem(item2);
+    			if (success)
+    			{
+    				itemsToRemove.add(item);
+    			}
+    			else
+    			{
+    				System.out.println("ERROR! Failed to process item " + item2 + " for client " + client);
+    			}
+    		}
+    	}
+    	
+    	for (WaitlistItem item : itemsToRemove)
+    	{
+    		waitlist.remove(item);
+    	}
     }
     
     public Iterator getWaitlist()

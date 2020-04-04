@@ -206,7 +206,7 @@ public class Warehouse implements Serializable
 	public boolean shipProduct(String supplierId, String productId, int quantity)
 	{
 		Supplier supplier = getSupplier(supplierId);
-		if (supplier.canShipProduct(productId))
+		if (supplier != null && supplier.canShipProduct(productId))
 		{
 			//TODO: Should supplier ship product instead of warehouse?
 			//supplier.shipProduct(productId);
@@ -214,12 +214,11 @@ public class Warehouse implements Serializable
 			Product product = null;
 			SuppliedProduct sp = null;
 			Iterator suppliedProducts = supplier.getSuppliedProducts();
-			while (suppliedProducts.hasNext() && product != null && sp != null)
+			while (suppliedProducts.hasNext() && product == null && sp == null)
 			{
 				sp = (SuppliedProduct) suppliedProducts.next();
 				product = sp.getProduct();
-				
-				if (product != null && product.getProductID() != productId)
+				if (product != null && !product.getProductID().equals(productId))
 				{
 					product = null; //reset it back to null if not the right product
 					sp = null;
@@ -228,11 +227,15 @@ public class Warehouse implements Serializable
 				//TODO: Should supplier have an invoice for products purchased?
 				//TODO: Should warehouse have a variable for total funds?
 			}
-			
 			if (product != null && sp != null)
 			{
 				product.setQuantity(product.getQuantity() + quantity);
+				product.processWaitlist();
 			}
+		}
+		else
+		{
+			return false;
 		}
 		
 		return true;
@@ -320,6 +323,7 @@ public class Warehouse implements Serializable
 		while (clients.hasNext())
 		{
 			Client client = (Client) clients.next();
+			System.out.println("Client " + client.getId() + " owes " + client.getAmountDue());
 			if (client.getAmountDue() > 0)
 			{
 				outstandingClients.add(client);
