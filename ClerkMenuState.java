@@ -25,7 +25,7 @@ public class ClerkMenuState extends WarehouseState
 		// Receive a shipment. The state asks the actor for productid and quantity; calls method on Façade to get an iterator. Displays each waitlisted order and performs operation requested by actor (skip or fill).
 		RECIEVE_SHIPMENT("recieve a shipment"), //TODO
 		// Record a payment from a client. State asks the actor for ID and amount; calls method on Façade to credit the amount to the client’s account.
-		RECORD_PAYMENT("record payment from a cluient"), //TODO
+		RECORD_PAYMENT("record payment from a client"), //TODO
 		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
 		BECOME_CLIENT("become a client"), //TODO
 		HELP("display the help menu"),
