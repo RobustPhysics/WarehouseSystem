@@ -202,8 +202,10 @@ public class ClientMenuState extends WarehouseState {
 	public void logout()
 	{
 		int wLogin = WarehouseContext.getInstance().getUserType();
-		if (wLogin == WarehouseContext.IsClerk)
+		if (wLogin == WarehouseContext.IsClerk || wLogin == WarehouseContext.IsManager)
 		{
+			//switch to clerk if actor logged in as clerk OR as manager
+			//(manager because it can only get to client by first switching to clerk)
 			WarehouseContext.getInstance().changeState(1); //switch to clerk state
 		}
 		else if (wLogin == WarehouseContext.IsClient)

@@ -19,14 +19,15 @@ public class ClerkMenuState extends WarehouseState
 		SHOW_CLIENTS("Show list of clients"),
 		// Show list of clients with outstanding balance. The state invokes a method on Facade to get an iterator, and then extracts the needed information.
 		SHOW_OUTSTANDING_CLIENTS("Shows a list of all clients with an outstanding balance due"),
-		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
-		BECOME_CLIENT("become a client"), //TODO
+		
 		// Display the waitlist for a product. The state asks the actor for productid; calls method on Façade to get an iterator.
 		SHOW_WAIT_LIST_PRODUCTS("Shows a list of every product and the waitlists for that product."),
 		// Receive a shipment. The state asks the actor for productid and quantity; calls method on Façade to get an iterator. Displays each waitlisted order and performs operation requested by actor (skip or fill).
 		RECIEVE_SHIPMENT("recieve a shipment"), //TODO
 		// Record a payment from a client. State asks the actor for ID and amount; calls method on Façade to credit the amount to the client’s account.
 		RECORD_PAYMENT("record payment from a cluient"), //TODO
+		// Become a client. The actor will be asked to input a ClientID; if valid, this ID will be stored in Context, and the system transitions to the ClientMenuState.
+		BECOME_CLIENT("become a client"), //TODO
 		HELP("display the help menu"),
 		// Logout. System transitions to the previous state, which has to be remembered in the context. (If previous state was the OpeningState, it goes there; otherwise it goes to ManagerMenuState.)
 		LOGOUT("logout"); //TODO
@@ -66,7 +67,7 @@ public class ClerkMenuState extends WarehouseState
 		{
 			try
 			{
-				String token = getToken("Enter a command. Use " + Option.HELP.ordinal() + " to display the menu.");
+				String token = UserInput.getToken("Enter a command. Use " + Option.HELP.ordinal() + " to display the menu.");
 				int value = Integer.parseInt(token);
 				if (value >= 0 && value <= Option.LENGTH)
 				{
@@ -98,6 +99,65 @@ public class ClerkMenuState extends WarehouseState
 		}
 	}
 	
+	public void addClient()
+	{
+		String name = UserInput.getToken("Enter client name");
+		Client client;
+		client = warehouse.addClient(name);
+		if (client == null)
+		{
+			System.out.println("Error! Failed to add client to warehouse!");
+		}
+		System.out.println("Client: " + client);
+	}
+	
+	public void showProducts()
+	{
+		Iterator products = warehouse.getProducts();
+		while (products.hasNext())
+		{
+			Product product = (Product) (products.next());
+			System.out.println(product);
+		}
+	}
+	
+	public void showClients()
+	{
+		Iterator clients = warehouse.getClients();
+		while (clients.hasNext())
+		{
+			Client client = (Client) (clients.next());
+			System.out.println(client);
+		}
+	}
+	
+	public void showOutstandingClients()
+	{
+		Iterator outstandingClients = warehouse.getOutstandingClients();
+		
+		System.out.println("The following clients have an outstanding balance.");
+		while (outstandingClients.hasNext())
+		{
+			Client client = (Client) outstandingClients.next();
+			System.out.println("\t" + client);
+			System.out.println("\t\tAmount due: " + client.getAmountDue());
+		}
+	}
+	
+	public void showProductWaitlist()
+	{
+		String id = UserInput.getToken("Enter product ID to view a list of suppliers that supply this product");
+		Product product = warehouse.getProduct(id);
+		Iterator waitlist = warehouse.getProductWaitlist(id);
+		
+		System.out.println("Product " + product.getProductName() + " (" + id + ") is supplied by...");
+		while (waitlist.hasNext())
+		{
+			WaitlistItem item = (WaitlistItem) waitlist.next();
+			System.out.println("\t" + item);
+		}
+	}
+	
 	public void shipProduct()
 	{
 		String productId = UserInput.getToken("Enter ID of product to be shipped");
@@ -118,7 +178,34 @@ public class ClerkMenuState extends WarehouseState
 		}
 	}
 	
+	public void recordPayment()
+	{
+		//TODO
+		System.out.println("Unimplemented");
+	}
 	
+	public void clientMenu()
+	{
+		WarehouseContext.getInstance().changeState(2); //switch to client state
+	}
+	
+	public void logout()
+	{
+		int wLogin = WarehouseContext.getInstance().getUserType();
+		if (wLogin == WarehouseContext.IsManager)
+		{
+			WarehouseContext.getInstance().changeState(1); //switch to manager state
+		}
+		else if (wLogin == WarehouseContext.IsClerk)
+		{
+			WarehouseContext.getInstance().changeState(0); //switch to login state
+		}
+		else
+		{
+			//note this would occur as an error if client somehow became a clerk
+			WarehouseContext.getInstance().changeState(3); //switch to error state
+		}
+	}
 	
 	//need to add methods for process commands
 	public void process()
@@ -132,40 +219,28 @@ public class ClerkMenuState extends WarehouseState
 			switch (command)
 			{
 				case ADD_CLIENT:
-					//showClientDetails();
-					System.out.println("add client");
+					addClient();
 					break;
 				case SHOW_PRODUCTS:
-					//showProducts();
-					System.out.println("show products");
+					showProducts();
 					break;
-				case SHOW_CLIENT_TRANSACTIONS:
-					//showClientTransactions();
-					System.out.println("show cliebnt transactions");
+				case SHOW_CLIENTS:
+					showClients();
 					break;
 				case SHOW_OUTSTANDING_CLIENTS:
-					//updateProductInCart();
-					System.out.println("recieve shipment");
+					showOutstandingClients();
 					break;
-				
-				//become client
-				case BECOME_CLIENT:
-					System.out.println("become client");
-					//becomeClient();
-					break;
-					
 				case SHOW_WAIT_LIST_PRODUCTS:
-					System.out.println("recieve shipment");
-					//showWaitListProducts();
-					System.out.println("waitlist products retrieved");
+					showProductWaitlist();
 					break;
-				//record payment from client
 				case RECIEVE_SHIPMENT:
-					System.out.println("recieve shipment");
+					shipProduct();
 					break;
-				case RECORD_CLIENT_PAYMENT:
-					//recordClientPayment();
-					System.out.println("recording cleint's payment");
+				case RECORD_PAYMENT:
+					recordPayment();
+					break;
+				case BECOME_CLIENT:
+					clientMenu();
 					break;
 				case HELP:
 					displayHelp();
@@ -173,7 +248,7 @@ public class ClerkMenuState extends WarehouseState
 				case LOGOUT:
 					break;
 			}
-		} while (command != Option.EXIT);
+		} while (command != Option.LOGOUT);
 		logout();
 	}
 	
