@@ -145,6 +145,33 @@ public class WarehouseContext {
 
 	public void process()
 	{
+		warehouse.addClient("Clare");
+		warehouse.addClient("Chris");
+		warehouse.addClient("Miranda");
+		warehouse.addClient("Dexter");
+		warehouse.addClient("Barrett");
+		warehouse.addClient("Joe");
+		warehouse.addClient("Barbara");
+		
+		warehouse.addProduct("Gameboy Advance",199.99,30);
+		warehouse.addProduct("Gameboy Platinum",199.99,30);
+		warehouse.addProduct("Pokemon Silver",35.99,344);
+		warehouse.addProduct("Pokemon Lead",15.99,222);
+		warehouse.addProduct("Pokemon Gold",35.99,1);
+		warehouse.addProduct("Pokemon Malachite",32.99,223);
+		warehouse.addProduct("Pokemon Crystal",45.99,234);
+		warehouse.addSupplier("Medtronic","Address 1");
+		warehouse.addSupplier("Aldrin Labs","Address 2");
+		warehouse.addSupplier("Ariake Tech","Address 3");
+		warehouse.addSupplier("Armali Council","Address 4");
+		warehouse.addSuppliedProduct("P1", "S1", 60);
+		warehouse.addSuppliedProduct("P2", "S1", 15);
+		warehouse.addSuppliedProduct("P3", "S1", 15);
+		warehouse.addSuppliedProduct("P4", "S1", 15);
+		warehouse.addSuppliedProduct("P1", "S2", 45);
+		warehouse.addSuppliedProduct("P2", "S3", 10);
+		warehouse.addSuppliedProduct("P3", "S3", 10);
+		warehouse.addSuppliedProduct("P4", "S3", 10);
 		states[currentState].run();
 	}
 	
